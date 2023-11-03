@@ -22,7 +22,7 @@ const Scan = () => {
     if (!handler.ready()) {
       return { ...noDataAvailable, isLoading: true };
     }
-    const stuffDocument = Stuffs.collection.findOne({ trackCMDR: qrCodeData });
+    const stuffDocument = Stuffs.collection.findOne({ DFG_ID: qrCodeData });
 
     console.log('Fetched document: ', stuffDocument); // log your document here
     return { isLoading: false, stuffDocument };
@@ -31,11 +31,7 @@ const Scan = () => {
   return (
     <Container id="scan-page" fluid className="py-3">
       <Row className="align-middle text-center">
-        <Col xs={4}>
-          <Image roundedCircle src="/images/meteor-logo.png" width="150px" />
-        </Col>
-
-        <Col xs={8} className="d-flex flex-column justify-content-center">
+        <Col className="d-flex flex-column justify-content-center">
           <h1>QR Scanner</h1>
           {!qrCodeData && <><p>Please hold the QR code in front of the camera</p><QRCodeScanner onCodeDetected={handleCodeDetected} /></>}
           {qrCodeData && (
@@ -49,7 +45,7 @@ const Scan = () => {
                         <th>Quantity</th>
                         <th>Owner</th>
                         <th>Condition</th>
-                        <th>Track CMDR</th>
+                        <th>DFG ID</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -58,7 +54,7 @@ const Scan = () => {
                         <td>{stuffDocument.quantity}</td>
                         <td>{stuffDocument.owner}</td>
                         <td>{stuffDocument.condition}</td>
-                        <td>{stuffDocument.trackCMDR}</td>
+                        <td>{stuffDocument.DFG_ID}</td>
                       </tr>
                     </tbody>
                   </Table>
