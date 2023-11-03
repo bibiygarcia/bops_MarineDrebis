@@ -36,7 +36,9 @@ const ListStuff = () => {
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Condition</th>
+                <th>CMDR ID Number</th>
                 <th>Edit</th>
+                <th>QR Code</th>
               </tr>
             </thead>
             <tbody>

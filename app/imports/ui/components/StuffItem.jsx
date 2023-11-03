@@ -8,8 +8,12 @@ const StuffItem = ({ stuff }) => (
     <td>{stuff.name}</td>
     <td>{stuff.quantity}</td>
     <td>{stuff.condition}</td>
+    <td>{stuff.DFG_ID}</td>
     <td>
       <Link to={`/edit/${stuff._id}`}>Edit</Link>
+    </td>
+    <td>
+      <Link to={`/qr/${stuff._id}`}>QR</Link>
     </td>
   </tr>
 );
@@ -20,6 +24,7 @@ StuffItem.propTypes = {
     name: PropTypes.string,
     quantity: PropTypes.number,
     condition: PropTypes.string,
+    DFG_ID: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
 };
