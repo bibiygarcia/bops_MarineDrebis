@@ -3,15 +3,29 @@
 
 /* Set up some CSS variables to theme the application. */
 :root {
-  --matr-navbar-bg: #ECECEC;
-  --matr-navbar-bg-rgb: 236, 236, 236;
+  --matr-navbar-bg: #217DB2;
+  --matr-navbar-bg-rgb: 33, 125, 178;
+  --matr-navbar-text-color: white;
+  --matr-navbar-highlight-text: #3DB9FF;
 }
 
 /* Change bootstrap variable values.
  See https://getbootstrap.com/docs/5.2/customize/css-variables/
  */
 body {
-  --bs-light-rgb: var(--matr-navbar-bg-rgb);
+  --bs-dark: var(--matr-navbar-bg);
+  --bs-dark-rgb: var(--matr-navbar-bg-rgb);
+  /*background: fixed center url("images/MultiLayers.png");*/
+  background-color: white;
+  background-size: cover;
+}
+
+body .navbar {
+  --bs-navbar-active-color: var(--matr-navbar-highlight-text);
+  --bs-navbar-brand-color: var(--matr-navbar-text-color);
+  --bs-navbar-brand-hover-color: var(--matr-navbar-highlight-text);
+  --bs-navbar-color: var(--matr-navbar-text-color);
+  --bs-navbar-hover-color: var(--matr-navbar-highlight-text);
 }
 
 /* Set the alert background on the signin and signup pages. */
@@ -25,4 +39,8 @@ body {
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
+}
+
+footer, footer a {
+  color: var(--matr-navbar-text-color);
 }
