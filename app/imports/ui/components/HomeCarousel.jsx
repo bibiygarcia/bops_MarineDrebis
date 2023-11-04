@@ -2,13 +2,13 @@ import React from 'react';
 import { Carousel, Container, Image } from 'react-bootstrap';
 
 const HomeCarousel = () => (
-  <Carousel>
+  <Carousel className="pt-lg-5">
     <Carousel.Item>
       <Container className="d-grid justify-content-center small" title="MultiLayers">
         <Image
           src="images/MultiLayers.png"
           alt="MultiLayers.png"
-          height={500}
+          height={300}
           width={1000}
         />
       </Container>
@@ -20,9 +20,9 @@ const HomeCarousel = () => (
     <Carousel.Item>
       <Container className="d-grid justify-content-center small" title="MultiLayers">
         <Image
-          src="images/MultiLayersWhaleShark.png"
+          src="images/MultiLayers.png"
           alt="MultiLayers.png"
-          height={500}
+          height={300}
           width={1000}
         />
       </Container>

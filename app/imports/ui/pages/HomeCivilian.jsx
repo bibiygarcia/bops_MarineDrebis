@@ -1,13 +1,13 @@
 import React from 'react';
-import HomeMiddle from '../components/HomeMiddle';
 import HomeCarousel from '../components/HomeCarousel';
-import IslandMap from '../components/IslandMap';
+import HomeSubmit from '../components/HomeSubmit';
+import HomeClosingBanner from '../components/HomeClosingBanner';
 
 const HomeCivilian = () => (
   <div className="d-flex flex-column min-vh-100">
-    <HomeMiddle />
     <HomeCarousel />
-    <IslandMap />
+    <HomeSubmit />
+    <HomeClosingBanner />
   </div>
 );
 

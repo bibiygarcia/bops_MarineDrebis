@@ -41,6 +41,10 @@ body .navbar {
   padding-bottom: 20px;
 }
 
+#HACCQ {
+  background-color: #EFEFEF;
+}
+
 footer, footer a {
   color: var(--matr-navbar-text-color);
 }
