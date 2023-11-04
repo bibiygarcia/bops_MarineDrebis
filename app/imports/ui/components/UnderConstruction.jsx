@@ -3,17 +3,15 @@ import { ConeStriped } from 'react-bootstrap-icons';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 
 const UnderConstruction = () => (
-  <Container className="p-lg-4">
-    <Row>
-      <br /><br /><br /><br /><br /><br />
+  <Container className="py-lg-5">
+    <Row className="py-lg-5">
       <h1 className="text-center ts-1"><ConeStriped /> UNDER CONSTRUCTION <ConeStriped /></h1>
       <h2 className="text-center">
         <br /> Important text is important.
         <br /> This message is sponsored by your local bibs.
-        <br /><br /><br /><br />
       </h2>
     </Row>
-    <Row sm={1} md={2} lg={3}>
+    <Row sm={1} md={2} lg={3} className="py-lg-5">
       <Col className="py-sm-2">
         <Image src="images/noTextLogoPNG.png" height={250} />
       </Col>

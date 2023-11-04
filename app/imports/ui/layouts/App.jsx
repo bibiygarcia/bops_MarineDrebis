@@ -17,7 +17,8 @@ import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/NotAuthorized';
 import LoadingSpinner from '../components/LoadingSpinner';
-import HomeCivilian from '../pages/HomeCivilian';
+import HomeCiv from '../pages/HomeCiv';
+import HomeOrg from '../pages/HomeOrg';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -32,12 +33,13 @@ const App = () => {
       <div className="d-flex flex-column min-vh-100">
         <NavBar />
         <Routes>
-          <Route exact path="/" element={<HomeCivilian />} />
+          <Route exact path="/" element={<HomeCiv />} />
+          <Route exact path="/org" element={<HomeOrg />} />
           <Route exact path="/landing" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/home" element={<ProtectedRoute><HomeCiv /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />

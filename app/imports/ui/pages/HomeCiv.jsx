@@ -3,7 +3,7 @@ import HomeCarousel from '../components/HomeCarousel';
 import HomeSubmit from '../components/HomeSubmit';
 import HomeClosingBanner from '../components/HomeClosingBanner';
 
-const HomeCivilian = () => (
+const HomeCiv = () => (
   <div className="d-flex flex-column min-vh-100">
     <HomeCarousel />
     <HomeSubmit />
@@ -11,4 +11,4 @@ const HomeCivilian = () => (
   </div>
 );
 
-export default HomeCivilian;
+export default HomeCiv;
