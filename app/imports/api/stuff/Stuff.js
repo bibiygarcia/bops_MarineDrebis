@@ -21,8 +21,11 @@ class StuffsCollection {
         defaultValue: 'good',
       },
       sampleIds: {
-        type: [String],
+        type: Array,
         optional: true,
+      },
+      'sampleIds.$': {
+        type: String,
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

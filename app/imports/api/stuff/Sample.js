@@ -17,8 +17,11 @@ class SamplesCollection {
       event_id: String,
       sample_id: String,
       subsampleIds: {
-        type: [String],
+        type: Array,
         optional: true,
+      },
+      'subsampleIds.$': {
+        type: String,
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

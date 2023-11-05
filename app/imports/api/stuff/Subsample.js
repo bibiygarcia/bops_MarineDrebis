@@ -18,8 +18,11 @@ class SubsamplesCollection {
       sample_id: String,
       subsample_id: String,
       componentIds: {
-        type: [String],
+        type: Array,
         optional: true,
+      },
+      'componentIds.$': {
+        type: String,
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
