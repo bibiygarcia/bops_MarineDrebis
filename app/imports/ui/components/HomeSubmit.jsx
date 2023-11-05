@@ -2,16 +2,17 @@ import React from 'react';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
 
 const HomeSubmit = () => (
-  <Container className="p-lg-5">
-    <Row sm={1} lg={2}>
-      <Col className="py-sm-2">
-        <Image fluid src="images/Turtle-in-Marine-Debris.png" alt="https://www.deeperblue.com/noaa-seeks-comments-for-upcoming-marine-debris-strategic-plan/" />
+  <Container className="d-grid pt-5" lg={5}>
+    <Row xs={1} sm={1} md={2}>
+      <Col className="pb-5 text-end">
+        <Image fluid src="images/AdobeStock_625815628_Preview.png" alt="AdobeStock_625815628_Preview.jpeg" width={500} />
       </Col>
-      <Col className="py-sm-2">
-        <h4>You Can Help Us Keep Our Oceans and Beaches Clean. Report Debris To Support Hawai&apos;i!</h4>
-        <p className="pb-1">
-          Help us report trash and other debris you find by land and sea!
-          We&apos;ll send someone to clean up debris, free of charge! Report and make a difference. Every pound of trash we remove from the environment is another life saved.
+      <Col className="pb-5 text-start">
+        <h3>Report Debris, Support Hawai&apos;i</h3>
+        <h5>Help Us Keep Our Oceans and Beaches Clean</h5>
+        <p>
+          Report trash and debris that you find by land or sea!
+          Someone will come to pick it up for free! Every pound of trash thrown away is a ocean life is saved for another day. And remember don&apos;t touch the turtles!
         </p>
         <div className="d-grid gap-2">
           <Button variant="danger" href="/">

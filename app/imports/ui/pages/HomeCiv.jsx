@@ -1,14 +1,15 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import HomeCarousel from '../components/HomeCarousel';
 import HomeSubmit from '../components/HomeSubmit';
 import HomeClosingBanner from '../components/HomeClosingBanner';
 
 const HomeCiv = () => (
-  <div className="d-flex flex-column min-vh-100">
+  <Container className="p-1 d-grid">
     <HomeCarousel />
     <HomeSubmit />
     <HomeClosingBanner />
-  </div>
+  </Container>
 );
 
 export default HomeCiv;

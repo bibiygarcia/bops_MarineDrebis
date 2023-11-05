@@ -6,7 +6,7 @@
   --matr-navbar-bg: #217DB2;
   --matr-navbar-bg-rgb: 33, 125, 178;
   --matr-navbar-text-color: white;
-  --matr-navbar-highlight-text: #3DB9FF;
+  --matr-navbar-highlight-text: #a6e5ee;
 }
 
 /* Change bootstrap variable values.
@@ -39,10 +39,6 @@ body .navbar {
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
-}
-
-#HACCQ {
-  background-color: #EFEFEF;
 }
 
 footer, footer a {
