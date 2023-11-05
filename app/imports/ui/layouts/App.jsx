@@ -20,6 +20,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import HomeCiv from '../pages/HomeCiv';
 import HomeOrg from '../pages/HomeOrg';
 import DebrisMap from '../pages/DebrisMap';
+import ListReported from '../pages/ListReported';
+import ListClaimed from '../pages/ListClaimed';
+import ListStored from '../pages/ListStored';
+import ListDisposed from '../pages/ListDisposed';
+import ListAnalyze from '../pages/ListAnalyze';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -43,6 +48,11 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><HomeCiv /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
+          <Route path="/reported" element={<ProtectedRoute><ListReported /></ProtectedRoute>} />
+          <Route path="/claimed" element={<ProtectedRoute><ListClaimed /></ProtectedRoute>} />
+          <Route path="/stored" element={<ProtectedRoute><ListStored /></ProtectedRoute>} />
+          <Route path="/disposed" element={<ProtectedRoute><ListDisposed /></ProtectedRoute>} />
+          <Route path="/analysis" element={<AdminProtectedRoute ready={ready}><ListAnalyze /></AdminProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />

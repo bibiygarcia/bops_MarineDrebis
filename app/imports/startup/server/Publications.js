@@ -12,11 +12,65 @@ Meteor.publish(Stuffs.userPublicationName, function () {
   return this.ready();
 });
 
+Meteor.publish(Stuffs.analysis, function () {
+  if (this.userId) {
+    if (Roles.userIsInRole(this.userId, 'admin')) {
+      return Stuffs.collection.find({ status: 'claimed' });
+    }
+    const username = Meteor.users.findOne(this.userId).username;
+    return Stuffs.collection.find({ owner: username, status: 'claimed' });
+  }
+  return this.ready();
+});
+
+// PUBLICATIONS FOR ADMIN PAGES
 // Admin-level publication.
 // If logged in and with admin role, then publish all documents from all users. Otherwise, publish nothing.
 Meteor.publish(Stuffs.adminPublicationName, function () {
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
     return Stuffs.collection.find();
+  }
+  return this.ready();
+});
+
+// PUBLICATIONS FOR STATUS RELATED PAGES
+// check if civilian and if so, don't publish anything
+Meteor.publish(Stuffs.unclaimed, function () {
+  if (this.userId) {
+    return Stuffs.collection.find({ status: 'unclaimed' });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Stuffs.claimed, function () {
+  if (this.userId) {
+    if (Roles.userIsInRole(this.userId, 'admin')) {
+      return Stuffs.collection.find({ status: 'claimed' });
+    }
+    const username = Meteor.users.findOne(this.userId).username;
+    return Stuffs.collection.find({ owner: username, status: 'claimed' });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Stuffs.stored, function () {
+  if (this.userId) {
+    if (Roles.userIsInRole(this.userId, 'admin')) {
+      return Stuffs.collection.find({ status: 'stored' });
+    }
+    const username = Meteor.users.findOne(this.userId).username;
+    return Stuffs.collection.find({ owner: username, status: 'stored' });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Stuffs.disposed, function () {
+  if (this.userId) {
+    if (Roles.userIsInRole(this.userId, 'admin')) {
+      return Stuffs.collection.find({ status: 'disposed' });
+    }
+    const username = Meteor.users.findOne(this.userId).username;
+    return Stuffs.collection.find({ owner: username, status: 'disposed' });
   }
   return this.ready();
 });
