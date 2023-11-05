@@ -15,10 +15,10 @@ class StuffsCollection {
       name: String,
       quantity: Number,
       owner: String,
-      condition: {
+      status: {
         type: String,
-        allowedValues: ['excellent', 'good', 'fair', 'poor'],
-        defaultValue: 'good',
+        allowedValues: ['unclaimed', 'claimed', 'stored', 'disposed'],
+        defaultValue: 'unclaimed',
       },
       sampleIds: {
         type: Array,
@@ -27,12 +27,19 @@ class StuffsCollection {
       'sampleIds.$': {
         type: String,
       },
+      facility: String,
+      type: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
     // Define names for publications and subscriptions
     this.userPublicationName = `${this.name}.publication.user`;
     this.adminPublicationName = `${this.name}.publication.admin`;
+    this.unclaimed = `${this.name}.publication.unclaimed`;
+    this.claimed = `${this.name}.publication.claimed`;
+    this.stored = `${this.name}.publication.stored`;
+    this.disposed = `${this.name}.publication.disposed`;
+    this.analysis = `${this.name}.publication.analysis`;
   }
 }
 
