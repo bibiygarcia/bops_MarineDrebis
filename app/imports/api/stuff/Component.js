@@ -4,26 +4,23 @@ import SimpleSchema from 'simpl-schema';
 /**
  * The StuffsCollection. It encapsulates state and variable values for stuff.
  */
-class StuffsCollection {
+class ComponentsCollection {
   constructor() {
     // The name of this collection.
-    this.name = 'StuffsCollection';
+    this.name = 'ComponentsCollection';
     // Define the Mongo collection.
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
       name: String,
-      quantity: Number,
       owner: String,
-      condition: {
-        type: String,
-        allowedValues: ['excellent', 'good', 'fair', 'poor'],
-        defaultValue: 'good',
-      },
-      sampleIds: {
-        type: [String],
-        optional: true,
-      },
+
+      event_id: String,
+      sample_id: String,
+      subsample_id: String,
+      component_id: String,
+
+      plastic_type: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
@@ -35,6 +32,6 @@ class StuffsCollection {
 
 /**
  * The singleton instance of the StuffsCollection.
- * @type {StuffsCollection}
+ * @type {ComponentsCollection}
  */
-export const Stuffs = new StuffsCollection();
+export const Components = new ComponentsCollection();

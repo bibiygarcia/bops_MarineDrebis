@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/Stuff.js';
+import { Samples } from '../../api/stuff/Sample.js';
+import { Subsamples } from '../../api/stuff/Subsample.js';
+import { Components } from '../../api/stuff/Component.js';
 
 /* eslint-disable no-console */
 
@@ -48,3 +51,33 @@ Meteor.methods({
 //     Stuffs.collection.add([NEW DOCUMENTS WITH SAME BASE ID]);
 //   },
 // });
+
+// -----------------------------------------------------------------------------------
+//  --------------------------        SAMPLES       ---------------------------------
+// -----------------------------------------------------------------------------------
+
+Meteor.methods({
+  linkSamplesWithEvent(eventId, sampleIds) {
+    Stuffs.collection.update(eventId, { $addToSet: { sampleIds } });
+  },
+});
+
+// -----------------------------------------------------------------------------------
+//  --------------------------       SUBSAMPLES      ---------------------------------
+// -----------------------------------------------------------------------------------
+
+Meteor.methods({
+  linkSubamplesWithSamples(sampleId, subsampleIds) {
+    Samples.collection.update(sampleId, { $addToSet: { subsampleIds } });
+  },
+});
+
+// -----------------------------------------------------------------------------------
+//  --------------------------       COMPONENTS      ---------------------------------
+// -----------------------------------------------------------------------------------
+
+Meteor.methods({
+  linkComponentWithSubsamples(subsampleId, componentIds) {
+    Subsamples.collection.update(subsampleId, { $addToSet: { componentIds } });
+  },
+});
