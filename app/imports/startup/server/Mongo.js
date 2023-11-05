@@ -16,3 +16,35 @@ if (Stuffs.collection.find().count() === 0) {
     Meteor.settings.defaultData.forEach(data => addData(data));
   }
 }
+
+Meteor.methods({
+  'stuffs.claim'(itemId, newOwner) {
+    // TODO: Add validation and permission checks (they might be allowed to move it)
+    Stuffs.collection.update(itemId, { $set: { status: 'claimed' } });
+    Stuffs.collection.update(itemId, { $set: { owner: newOwner } });
+  },
+});
+
+Meteor.methods({
+  'stuffs.release'(itemId) {
+    // TODO: Add validation and permission checks (they might be allowed to move it)
+    Stuffs.collection.update(itemId, { $set: { status: 'unclaimed' } });
+    // currently does not change owner back
+  },
+});
+
+// newOwner could be provided through a selection menu
+Meteor.methods({
+  'stuffs.transfer'(itemId, newOwner) {
+    // TODO: Add validation and permission checks (they might be allowed to move it)
+    Stuffs.collection.update(itemId, { $set: { owner: newOwner } });
+  },
+});
+
+// TODO: Make this
+// Meteor.methods({
+//   'stuffs.split'(itemId, quantity) {
+//     // TODO: Add validation and permission checks (they might be allowed to move it)
+//     Stuffs.collection.add([NEW DOCUMENTS WITH SAME BASE ID]);
+//   },
+// });

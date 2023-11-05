@@ -1,24 +1,36 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Col, Container, Row, Table, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import { useNavigate } from 'react-router-dom';
 import { Stuffs } from '../../api/stuff/Stuff';
-import StuffItem from '../components/StuffItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+const DisposedItems = ({ stuff }) => {
+  const navigate = useNavigate();
+
+  // Action for "Details" button
+  const handleDetailsClick = () => {
+    navigate(`/details/${stuff._id}`);
+  };
+
+  return (
+    <tr>
+      <td>{stuff.result}</td>
+      <td>{stuff.type}</td>
+      <td><Button onClick={handleDetailsClick}>Details</Button></td>
+    </tr>
+  );
+};
+
 const ListDisposed = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, stuffs } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
     const subscription = Meteor.subscribe(Stuffs.disposed);
-    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
-    const stuffItems = Stuffs.collection.find({}).fetch();
+    const disposedItems = Stuffs.collection.find().fetch();
+
     return {
-      stuffs: stuffItems,
+      stuffs: disposedItems,
       ready: rdy,
     };
   }, []);
@@ -35,13 +47,11 @@ const ListDisposed = () => {
               <tr>
                 <th>Result</th>
                 <th>Type</th>
-                {/* Opens detail page */}
                 <th>Details</th>
-                {/* Release button (undo claim) - should this be here or only in details? */}
               </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <StuffItem key={stuff._id} stuff={stuff} />)}
+              {stuffs.map((stuff) => <DisposedItems key={stuff._id} stuff={stuff} />)}
             </tbody>
           </Table>
         </Col>

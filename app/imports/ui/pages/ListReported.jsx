@@ -1,28 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Col, Container, Row, Table, Button, Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { Stuffs } from '../../api/stuff/Stuff';
-import StuffItem from '../components/StuffItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-/* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
+const ReportedItems = ({ stuff }) => {
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+
+  const handleDetailsClick = () => {
+    navigate(`/details/${stuff._id}`);
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleClaim = () => {
+    Meteor.call('stuffs.claim', stuff._id, Meteor.user().username, (error) => {
+      if (error) {
+        console.log(`Claiming ${stuff._id} failed`);
+      } else {
+        handleClose();
+      }
+    });
+  };
+
+  return (
+    <>
+      <tr>
+        <td>{stuff.island}</td>
+        <td>{stuff.city}</td>
+        <td>{stuff.type}</td>
+        <td>{stuff.located}</td>
+        <td><Button onClick={handleDetailsClick}>Details</Button></td>
+        <td><Button onClick={handleShow}>Claim</Button></td>
+      </tr>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Claim Item</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Do you want to claim this item?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleClaim}>
+            Claim
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+    </>
+  );
+};
+/* Renders a table containing all of the Stuff documents. Use <ReportedItems> to render each row. */
 const ListReported = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, stuffs } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
     const subscription = Meteor.subscribe(Stuffs.unclaimed);
-    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
-    const stuffItems = Stuffs.collection.find({}).fetch();
+    const reportedItems = Stuffs.collection.find().fetch();
+
     return {
-      stuffs: stuffItems,
+      stuffs: reportedItems,
       ready: rdy,
     };
   }, []);
+
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
@@ -34,23 +80,16 @@ const ListReported = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                {/* GPS based info */}
                 <th>Island</th>
-                {/* GPS based info */}
                 <th>City</th>
-                {/* Maybe we can simplify: fishing, boat, container, plastic, tsunami, trash, other */}
                 <th>Type</th>
-                {/* Maybe we can simplify: offshore >3mi, offshore <3mi, shore, beach underwater, beach over water, other */}
                 <th>Located</th>
-                {/* Approximate location */}
-                {/* Opens detail page */}
                 <th>Details</th>
-                {/* Claim button - should this be here or only in details? */}
                 <th>Claim</th>
               </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <StuffItem key={stuff._id} stuff={stuff} />)}
+              {stuffs.map((stuff) => <ReportedItems key={stuff._id} stuff={stuff} />)}
             </tbody>
           </Table>
         </Col>

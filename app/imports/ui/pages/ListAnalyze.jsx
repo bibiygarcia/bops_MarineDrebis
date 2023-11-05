@@ -1,27 +1,48 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Col, Container, Row, Table, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import { useNavigate } from 'react-router-dom';
 import { Stuffs } from '../../api/stuff/Stuff';
-import StuffItem from '../components/StuffItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
+const AnalysisItems = ({ stuff }) => {
+  const navigate = useNavigate();
+
+  // Action for "Details" button
+  const handleDetailsClick = () => {
+    navigate(`/details/${stuff._id}`);
+  };
+
+  // Action for "Split" button
+  const handleSplitClick = () => {
+    navigate(`/split/${stuff._id}`);
+  };
+
+  return (
+    <tr>
+      <td>{stuff.islandCollected}</td>
+      <td>{stuff.nearestCity}</td>
+      <td>{stuff.type}</td>
+      <td>{stuff.located}</td>
+      <td><Button onClick={handleDetailsClick}>Details</Button></td>
+      <td><Button onClick={handleSplitClick}>Split</Button></td>
+    </tr>
+  );
+};
+
 const ListAnalysis = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, stuffs } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
     const subscription = Meteor.subscribe(Stuffs.analysis);
-    // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
-    const stuffItems = Stuffs.collection.find({}).fetch();
+    const analysisItems = Stuffs.collection.find().fetch();
+
     return {
-      stuffs: stuffItems,
+      stuffs: analysisItems,
       ready: rdy,
     };
   }, []);
+
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
@@ -33,22 +54,16 @@ const ListAnalysis = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                {/* GPS based info */}
                 <th>Island Collected</th>
-                {/* GPS based info */}
                 <th>Nearest City</th>
-                {/* Maybe we can simplify: fishing, boat, container, plastic, tsunami, trash, other */}
                 <th>Type</th>
-                {/* Maybe we can simplify: offshore >3mi, offshore <3mi, shore, beach underwater, beach over water, other */}
                 <th>Located</th>
-                {/* Opens detail page */}
                 <th>Details</th>
-                {/* Event -> Samples */}
                 <th>Split</th>
               </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <StuffItem key={stuff._id} stuff={stuff} />)}
+              {stuffs.map((stuff) => <AnalysisItems key={stuff._id} stuff={stuff} />)}
             </tbody>
           </Table>
         </Col>

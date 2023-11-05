@@ -12,23 +12,19 @@ Meteor.publish(Stuffs.userPublicationName, function () {
   return this.ready();
 });
 
-Meteor.publish(Stuffs.analysis, function () {
-  if (this.userId) {
-    if (Roles.userIsInRole(this.userId, 'admin')) {
-      return Stuffs.collection.find({ status: 'claimed' });
-    }
-    const username = Meteor.users.findOne(this.userId).username;
-    return Stuffs.collection.find({ owner: username, status: 'claimed' });
-  }
-  return this.ready();
-});
-
 // PUBLICATIONS FOR ADMIN PAGES
 // Admin-level publication.
 // If logged in and with admin role, then publish all documents from all users. Otherwise, publish nothing.
 Meteor.publish(Stuffs.adminPublicationName, function () {
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
     return Stuffs.collection.find();
+  }
+  return this.ready();
+});
+
+Meteor.publish(Stuffs.analysis, function () {
+  if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
+    return Stuffs.collection.find({ selectedForAnalysis: true });
   }
   return this.ready();
 });
