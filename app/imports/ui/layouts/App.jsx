@@ -20,6 +20,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import HomeCiv from '../pages/HomeCiv';
 import HomeOrg from '../pages/HomeOrg';
 import DebrisMap from '../pages/DebrisMap';
+import ReportDebris from '../pages/ReportDebris';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -43,7 +44,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><HomeCiv /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
-          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
+          <Route path="/report" element={<ProtectedRoute><ReportDebris /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />

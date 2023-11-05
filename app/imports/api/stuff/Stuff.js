@@ -12,9 +12,10 @@ class StuffsCollection {
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
-      name: String,
-      quantity: Number,
-      owner: String,
+      type: {
+        type: String,
+        allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', ' A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
+      },
       condition: {
         type: String,
         allowedValues: ['excellent', 'good', 'fair', 'poor'],
