@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 /**
- * The StuffsCollection. It encapsulates state and variable values for stuff.
+ * The SampleCollection. It encapsulates state and variable values for sample.
  */
 class SamplesCollection {
   constructor() {
@@ -13,7 +13,10 @@ class SamplesCollection {
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
       name: String,
-      owner: String,
+      owner: {
+        type: String,
+        optional: true,
+      },
       event_id: String,
       sample_id: String,
       subsampleIds: {

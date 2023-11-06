@@ -48,8 +48,8 @@ const ListAnalysis = () => {
       <Row className="justify-content-center">
         <Col md={7}>
           <Col className="text-center">
-            <h2>Analysis Page for Collected Debris</h2>
-            <p>This page is designed to make analysis easier. You can designate existing debris in the database for future analysis. This will allow you to see all of these here.</p>
+            <h2>Lab: Collected Samples</h2>
+            <p>Any sample that you have logged will be displayed here. You can view them in more detail, record properties, and log subsamples and components.</p>
           </Col>
           <Table striped bordered hover>
             <thead>

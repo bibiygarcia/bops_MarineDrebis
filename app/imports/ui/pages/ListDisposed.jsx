@@ -39,7 +39,7 @@ const ListDisposed = () => {
       <Row className="justify-content-center">
         <Col md={7}>
           <Col className="text-center">
-            <h2>Debris that has been Disposed</h2>
+            <h2>DFG Events that have been Disposed</h2>
             <p>This debris has been recycled, burned, or thrown into a landfill 🚯</p>
           </Col>
           <Table striped bordered hover>

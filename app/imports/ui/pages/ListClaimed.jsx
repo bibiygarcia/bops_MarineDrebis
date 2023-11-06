@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row, Table, Button } from 'react-bootstrap';
+import { Col, Container, Row, Table, Button, Modal } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useNavigate } from 'react-router-dom';
 import { Stuffs } from '../../api/stuff/Stuff';
-// import StuffItem from '../components/StuffItem'; // You don't use this anymore
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ClaimedItems = ({ stuff }) => {
   const navigate = useNavigate();
+  const [showRelease, setShowRelease] = useState(false);
+  const [showStore, setShowStore] = useState(false);
 
   // Action for "Details" button
   const handleDetailsClick = () => {
@@ -16,19 +17,74 @@ const ClaimedItems = ({ stuff }) => {
   };
 
   // Action for "Release" button
+  const handleCloseRelease = () => setShowRelease(false);
+  const handleShowRelease = () => setShowRelease(true);
+
+  const handleCloseStore = () => setShowStore(false);
+  const handleShowStore = () => setShowStore(true);
+
   const handleRelease = () => {
-    navigate(`/release/${stuff._id}`);
+    Meteor.call('stuffs.release', stuff._id, (error) => {
+      if (error) {
+        console.log(`Releasing ${stuff._id} failed`);
+      } else {
+        handleCloseRelease();
+      }
+    });
+  };
+
+  const handleStore = () => {
+    Meteor.call('stuffs.store', stuff._id, (error) => {
+      if (error) {
+        console.log(`Moving ${stuff._id} to storage failed`);
+      } else {
+        handleCloseStore();
+      }
+    });
   };
 
   return (
-    <tr>
-      <td>{stuff.island}</td>
-      <td>{stuff.city}</td>
-      <td>{stuff.type}</td>
-      <td>{stuff.located}</td>
-      <td><Button onClick={handleDetailsClick}>Details</Button></td>
-      <td><Button onClick={handleRelease}>Release</Button></td>
-    </tr>
+    <>
+      <tr>
+        <td>{stuff.island}</td>
+        <td>{stuff.city}</td>
+        <td>{stuff.type}</td>
+        <td>{stuff.located}</td>
+        <td><Button onClick={handleDetailsClick}>Details</Button></td>
+        <td><Button onClick={handleShowRelease}>Release</Button></td>
+        <td><Button onClick={handleShowStore}>Store</Button></td>
+      </tr>
+
+      <Modal show={showRelease} onHide={handleCloseRelease}>
+        <Modal.Header closeButton>
+          <Modal.Title>Release Debris</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Do you want to release this item?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseRelease}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleRelease}>
+            Release
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showStore} onHide={handleCloseStore}>
+        <Modal.Header closeButton>
+          <Modal.Title>Move Debris to Storage</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Has this debris been collected and moved to storage?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseStore}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleStore}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
@@ -61,6 +117,7 @@ const ListClaimed = () => {
                 <th>Located</th>
                 <th>Details</th>
                 <th>Release</th>
+                <th>Store</th>
               </tr>
             </thead>
             <tbody>

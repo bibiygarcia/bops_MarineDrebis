@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Stuffs } from '../../api/stuff/Stuff.js';
 import { Samples } from '../../api/stuff/Sample.js';
 import { Subsamples } from '../../api/stuff/Subsample.js';
@@ -36,11 +37,25 @@ Meteor.methods({
   },
 });
 
+Meteor.methods({
+  'stuffs.store'(itemId) {
+    // TODO: Add validation and permission checks (they might be allowed to move it)
+    Stuffs.collection.update(itemId, { $set: { status: 'stored' } });
+  },
+});
+
 // newOwner could be provided through a selection menu
 Meteor.methods({
   'stuffs.transfer'(itemId, newOwner) {
     // TODO: Add validation and permission checks (they might be allowed to move it)
     Stuffs.collection.update(itemId, { $set: { owner: newOwner } });
+  },
+});
+
+Meteor.methods({
+  'stuffs.dispose'(itemId) {
+    // TODO: Add validation and permission checks (they might be allowed to move it)
+    Stuffs.collection.update(itemId, { $set: { status: 'disposed' } });
   },
 });
 
@@ -57,8 +72,11 @@ Meteor.methods({
 // -----------------------------------------------------------------------------------
 
 Meteor.methods({
-  linkSamplesWithEvent(eventId, sampleIds) {
-    Stuffs.collection.update(eventId, { $addToSet: { sampleIds } });
+  'stuffs.linkSamplesWithEvent'(eventId, sampleIds) {
+    check(eventId, String);
+    check(sampleIds, [String]);
+
+    Stuffs.collection.update(eventId, { $addToSet: { sampleIds: { $each: sampleIds } } });
   },
 });
 
@@ -67,17 +85,22 @@ Meteor.methods({
 // -----------------------------------------------------------------------------------
 
 Meteor.methods({
-  linkSubamplesWithSamples(sampleId, subsampleIds) {
-    Samples.collection.update(sampleId, { $addToSet: { subsampleIds } });
+  'samples.linkSubamplesWithSamples'(sampleId, subsampleIds) {
+    check(sampleId, String);
+    check(subsampleIds, [String]);
+
+    Stuffs.collection.update(sampleId, { $addToSet: { subsampleIds: { $each: subsampleIds } } });
   },
 });
 
 // -----------------------------------------------------------------------------------
 //  --------------------------       COMPONENTS      ---------------------------------
 // -----------------------------------------------------------------------------------
-
 Meteor.methods({
-  linkComponentWithSubsamples(subsampleId, componentIds) {
-    Subsamples.collection.update(subsampleId, { $addToSet: { componentIds } });
+  'stuffs.linkComponentWithSubsamples'(subsampleId, componentIds) {
+    check(subsampleId, String);
+    check(componentIds, [String]);
+
+    Stuffs.collection.update(subsampleId, { $addToSet: { componentIds: { $each: componentIds } } });
   },
 });

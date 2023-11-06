@@ -13,7 +13,10 @@ class SubsamplesCollection {
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
       name: String,
-      owner: String,
+      owner: {
+        type: String,
+        optional: true,
+      },
       event_id: String,
       sample_id: String,
       subsample_id: String,

@@ -16,6 +16,11 @@ const formSchema = new SimpleSchema({
     allowedValues: ['excellent', 'good', 'fair', 'poor'],
     defaultValue: 'good',
   },
+  status: {
+    type: String,
+    allowedValues: ['unclaimed', 'claimed', 'stored', 'disposed'],
+    defaultValue: 'unclaimed',
+  },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -25,10 +30,10 @@ const AddStuff = () => {
 
   // On submit, insert the data.
   const submit = (data, formRef) => {
-    const { name, quantity, condition } = data;
+    const { name, quantity, condition, status } = data;
     const owner = Meteor.user().username;
     Stuffs.collection.insert(
-      { name, quantity, condition, owner },
+      { name, quantity, condition, owner, status },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -51,6 +56,7 @@ const AddStuff = () => {
             <Card>
               <Card.Body>
                 <TextField name="name" />
+                <TextField name="status" />
                 <NumField name="quantity" decimal={null} />
                 <SelectField name="condition" />
                 <SubmitField value="Submit" />

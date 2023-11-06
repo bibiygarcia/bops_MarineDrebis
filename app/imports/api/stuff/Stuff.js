@@ -20,6 +20,10 @@ class StuffsCollection {
         allowedValues: ['unclaimed', 'claimed', 'stored', 'disposed'],
         defaultValue: 'unclaimed',
       },
+      eventId: {
+        type: String,
+        optional: true,
+      },
       sampleIds: {
         type: Array,
         optional: true,
@@ -27,8 +31,14 @@ class StuffsCollection {
       'sampleIds.$': {
         type: String,
       },
-      facility: String,
-      type: String,
+      facility: {
+        type: String,
+        optional: true,
+      },
+      type: {
+        type: String,
+        optional: true,
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
