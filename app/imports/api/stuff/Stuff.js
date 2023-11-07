@@ -31,6 +31,14 @@ class StuffsCollection {
       'sampleIds.$': {
         type: String,
       },
+      hasSamples: {
+        type: Boolean,
+        optional: true,
+      },
+      protocol: {
+        type: Number,
+        optional: true,
+      },
       facility: {
         type: String,
         optional: true,

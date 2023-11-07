@@ -32,6 +32,7 @@ class SamplesCollection {
     // Define names for publications and subscriptions
     this.userPublicationName = `${this.name}.publication.user`;
     this.adminPublicationName = `${this.name}.publication.admin`;
+    this.analysis = `${this.name}.publication.analysis`;
   }
 }
 
