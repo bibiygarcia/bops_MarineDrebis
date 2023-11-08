@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SelectField, SubmitField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -39,7 +39,7 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 const ReportDebris = () => {
   const [imageFile, setImageFile] = useState(null); // State hook for the image file
-  const fRef = useRef(null); // This reference is used to reset the form
+  let fRef = useRef(null); // This reference is used to reset the form
   const submit = (data) => {
     const { type, located, describe, island, image } = data;
 
@@ -86,12 +86,12 @@ const ReportDebris = () => {
             // eslint-disable-next-line no-param-reassign
             data.image = response;
 
-            Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response }, (error) => {
+            Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response }, () => {
               if (error) {
                 swal('Error', error.message, 'error');
               } else {
                 swal('Success', 'Item added successfully', 'success');
-                setImageFile(null);
+                setImageFile(null); // Reset the imageFile state
                 fRef.current.reset();
               }
             });
@@ -100,7 +100,7 @@ const ReportDebris = () => {
       };
       reader.readAsDataURL(imageFile);
     } else {
-      Stuffs.collection.insert({ type, located, describe, owner, DFG_ID }, (error) => {
+      Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
@@ -114,6 +114,16 @@ const ReportDebris = () => {
     setImageFile(e.target.files[0]);
   };
 
+  const [showTextField, setShowTextField] = useState(false);
+
+  const handleSelectChange = (name, value) => {
+    if (value === 'Other') {
+      setShowTextField(true);
+    } else {
+      setShowTextField(false);
+    }
+  };
+
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   return (
     <Container className="py-3">
@@ -124,10 +134,11 @@ const ReportDebris = () => {
           <h6>1) Drifting in State waters or washed up on the shoreline,</h6>
           <h6>2) Removed from the water and is secured on land, or</h6>
           <h6>3) So large or heavy that you need help to remove it.</h6>
-          <AutoForm schema={bridge} onSubmit={submit} ref={fRef}>
+          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
             <Card>
               <Card.Body>
                 <SelectField name="type" label="I FOUND/LOCATED THE FOLLOWING" />
+                {showTextField && <TextField name="other" label="Please explain how urgent recovery/removal is" />}
                 <SelectField name="located" label="THIS DEBRIS IS LOCATED" />
                 <SelectField name="describe" label="THE DEBRIS IS BEST DESCRIBED AS:" />
                 <SelectField name="island" label="If on land or in the nearshore waters - indicate which island" />

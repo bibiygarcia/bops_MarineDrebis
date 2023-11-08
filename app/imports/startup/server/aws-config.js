@@ -2,8 +2,8 @@ import AWS from 'aws-sdk';
 import { Meteor } from 'meteor/meteor';
 
 AWS.config.update({
-  // accessKeyId: 'AWS ACCESS_KEY',
-  // secretAccessKey: 'AWS_SECRET_KEY',
+  accessKeyId: 'AWS ACCESS_KEY',
+  secretAccessKey: 'AWS_SECRET_KEY',
   region: 'us-west-1',
 
 });
