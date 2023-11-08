@@ -11,7 +11,7 @@ const StoredItems = ({ stuff }) => {
   const navigate = useNavigate();
   const [showDispose, setShowDispose] = useState(false);
   const [showNewSample, setShowNewSample] = useState(false);
-  const [selectedProtocol, setSelectedProtocol] = useState('');
+  const [selectedProtocol, setSelectedProtocol] = useState(0);
 
   // Action for "Details" button
   const handleDetailsClick = () => {
@@ -26,7 +26,7 @@ const StoredItems = ({ stuff }) => {
   // Actions for "Sample" button
 
   const handleExistingSampleClick = () => {
-    navigate(`/split/${stuff._id}`);
+    navigate(`/analysis#${stuff.event_id}`);
   };
 
   // if none exists: ask what sample protocol they are using 1-6 via dropdown
@@ -35,16 +35,16 @@ const StoredItems = ({ stuff }) => {
   const handleShowNewSample = () => setShowNewSample(true);
   const handleNewSample = () => {
     // create new sample
+    console.log(selectedProtocol);
     const newSampleId = Samples.collection.insert({
       name: 'Sample Initial',
       event_id: 'a', // stuff.eventId
       sample_id: '0001',
-      protocol: selectedProtocol,
     }, (err, _id) => { // callback function to get the _id of the inserted document
       if (err) {
         console.error('Could not insert new sample:', err);
       } else {
-        Meteor.call('stuffs.linkSamplesWithEvent', stuff._id, [newSampleId], (error) => {
+        Meteor.call('stuffs.linkSamplesWithEvent', stuff._id, [newSampleId], selectedProtocol, (error) => {
           if (error) {
             console.log(`Creating a sample for ${stuff._id} failed${error}`);
           } else {
@@ -56,7 +56,7 @@ const StoredItems = ({ stuff }) => {
   };
 
   const handleProtocolChange = (e) => {
-    setSelectedProtocol(e.target.value);
+    setSelectedProtocol(+e.target.value);
   };
 
   const handleCloseDispose = () => setShowDispose(false);
@@ -116,12 +116,12 @@ const StoredItems = ({ stuff }) => {
               <Form.Label>Select the Protocol you are using:</Form.Label>
               <Form.Control as="select" value={selectedProtocol} onChange={handleProtocolChange}>
                 <option value="">...</option>
-                <option value="protocol1">Measure and Dispose</option>
-                <option value="protocol2">Four Corners</option>
-                <option value="protocol3">One of All</option>
-                <option value="protocol4">Hybrid</option>
-                <option value="protocol5">Disentanglement</option>
-                <option value="protocol6">Reverse Engineer</option>
+                <option value="1">Measure and Dispose</option>
+                <option value="2">Four Corners</option>
+                <option value="3">One of All</option>
+                <option value="4">Hybrid</option>
+                <option value="5">Disentanglement</option>
+                <option value="6">Reverse Engineer</option>
               </Form.Control>
             </Form.Group>
           </Form>

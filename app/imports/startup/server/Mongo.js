@@ -72,11 +72,19 @@ Meteor.methods({
 // -----------------------------------------------------------------------------------
 
 Meteor.methods({
-  'stuffs.linkSamplesWithEvent'(eventId, sampleIds) {
+  'stuffs.linkSamplesWithEvent'(eventId, sampleIds, protocol = null) {
     check(eventId, String);
     check(sampleIds, [String]);
+    protocol && check(protocol, Number);
+
+    const existingEvent = Stuffs.collection.findOne(eventId);
+    if (!existingEvent) {
+      throw new Meteor.Error('404', 'Event not found: linkSamplesWithEvent');
+    }
 
     Stuffs.collection.update(eventId, { $addToSet: { sampleIds: { $each: sampleIds } } });
+    Stuffs.collection.update(eventId, { $set: { hasSamples: true } });
+    protocol && Stuffs.collection.update(eventId, { $set: { protocol: protocol } });
   },
 });
 
