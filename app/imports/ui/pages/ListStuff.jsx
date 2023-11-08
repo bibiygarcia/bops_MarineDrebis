@@ -23,6 +23,10 @@ const ListStuff = () => {
       ready: rdy,
     };
   }, []);
+
+  const count = Stuffs.collection.find({}).count();
+  console.log(count);
+
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
