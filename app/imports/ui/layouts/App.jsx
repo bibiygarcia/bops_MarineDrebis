@@ -26,6 +26,7 @@ import ListStored from '../pages/ListStored';
 import ListDisposed from '../pages/ListDisposed';
 import ListAnalyze from '../pages/ListAnalyze';
 import Details from '../pages/Details';
+import ReportDebris from '../pages/ReportDebris';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/disposed" element={<ProtectedRoute><ListDisposed /></ProtectedRoute>} />
           <Route path="/analysis" element={<AdminProtectedRoute ready={ready}><ListAnalyze /></AdminProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
+          <Route path="/report" element={<ProtectedRoute><ReportDebris /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/details/:_id" element={<ProtectedRoute><Details /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />

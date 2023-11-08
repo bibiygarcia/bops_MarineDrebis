@@ -12,6 +12,20 @@ class StuffsCollection {
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
+      name: {
+        type: String,
+        optional: true,
+      },
+      quantity: {
+        type: Number,
+        optional: true,
+      },
+      owner: String,
+      status: {
+        type: String,
+        allowedValues: ['unclaimed', 'claimed', 'stored', 'disposed'],
+        defaultValue: 'unclaimed',
+      },
       type: {
         type: String,
         allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
@@ -41,12 +55,33 @@ class StuffsCollection {
         type: String,
         optional: true,
       },
+      eventId: {
+        type: String,
+        optional: true,
+      },
+      sampleIds: {
+        type: Array,
+        optional: true,
+      },
+      'sampleIds.$': {
+        type: String,
+      },
+      facility: {
+        type: String,
+        optional: true,
+      },
+
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
     // Define names for publications and subscriptions
     this.userPublicationName = `${this.name}.publication.user`;
     this.adminPublicationName = `${this.name}.publication.admin`;
+    this.unclaimed = `${this.name}.publication.unclaimed`;
+    this.claimed = `${this.name}.publication.claimed`;
+    this.stored = `${this.name}.publication.stored`;
+    this.disposed = `${this.name}.publication.disposed`;
+    this.analysis = `${this.name}.publication.analysis`;
   }
 }
 
