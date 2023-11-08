@@ -14,12 +14,32 @@ class StuffsCollection {
     this.schema = new SimpleSchema({
       type: {
         type: String,
-        allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', ' A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
+        allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
+        defaultValue: 'A mass of netting and/or fishing gear',
       },
-      condition: {
+      located: {
         type: String,
-        allowedValues: ['excellent', 'good', 'fair', 'poor'],
-        defaultValue: 'good',
+        allowedValues: ['At sea, BEYOND three miles from ' +
+        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows bellow'],
+        defaultValue: 'At sea, BEYOND three miles from nearest land',
+      },
+      describe: {
+        type: String,
+        allowedValues: ['caught on the reef or is partially buried in sand',
+          'loose in the shore break or on the shoreline and ' +
+          'could go back out to sea', 'trapped in a tide ' +
+          'pool and cannot escape', 'loose on the shore ' +
+          'but caught in the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other - please explain how urgent recovery/removal is'],
+        defaultValue: 'caught on the reef or is partially buried in sand',
+      },
+      island: {
+        type: String,
+        allowedValues: ['Oahu', 'Maui', 'Big Island', 'Kauai', 'Molokai', 'Lanai', 'Kahoolawe', 'Niihau'],
+        defaultValue: 'Oahu',
+      },
+      image: {
+        type: String,
+        optional: true,
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
