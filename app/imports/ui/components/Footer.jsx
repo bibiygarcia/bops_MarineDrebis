@@ -23,6 +23,8 @@ const Footer = () => (
           <a href="/org">Organization Home</a>
           <br />
           <a href="/map">Debris Map</a>
+          <br />
+          <a href="/profile">See My Profile</a>
         </Col>
         <Col className="text-center">
           Department of Information and Computer Sciences

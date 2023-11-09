@@ -20,6 +20,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import HomeCiv from '../pages/HomeCiv';
 import HomeOrg from '../pages/HomeOrg';
 import DebrisMap from '../pages/DebrisMap';
+import Profile from '../pages/Profile';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
       <div className="d-flex flex-column min-vh-100">
         <NavBar />
         <Routes>
+          <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/" element={<HomeCiv />} />
           <Route exact path="/org" element={<HomeOrg />} />
           <Route exact path="/map" element={<DebrisMap />} />
