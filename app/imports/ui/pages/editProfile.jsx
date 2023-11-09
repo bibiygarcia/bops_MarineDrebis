@@ -1,4 +1,4 @@
-import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import {
   AutoForm,  TextField, LongTextField, SelectField, SubmitField,
 } from 'uniforms-bootstrap5';
@@ -68,11 +68,6 @@ const EditProfile = () => {
               <SubmitField value="Submit" />
             </Card>
           </AutoForm>
-          {emailState ? (
-            <Alert className="py-2">
-              <a href={`/student/${emailState}`}>Edit this data</a>
-            </Alert>
-          ) : ''}
         </Col>
       </Row>
     </Container>
