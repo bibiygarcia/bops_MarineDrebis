@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { Card, Col, Container, Row, Form } from 'react-bootstrap';
+import { AutoForm, ErrorsField, SelectField, SubmitField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -11,23 +11,29 @@ import { Stuffs } from '../../api/stuff/Stuff';
 const formSchema = new SimpleSchema({
   type: {
     type: String,
-    allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
-    defaultValue: 'A mass of netting and/or fishing gear',
+    allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other - please explain below'],
+    defaultValue: '',
   },
   located: {
     type: String,
-    allowedValues: ['At sea, BEYOND three miles from nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows bellow'],
-    defaultValue: 'At sea, BEYOND three miles from nearest land',
+    allowedValues: ['At sea, BEYOND three miles ' +
+    'from nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows below'],
+    defaultValue: '',
   },
   describe: {
     type: String,
-    allowedValues: ['caught on the reef or is partially buried in sand', 'loose in the shore break or on the shoreline and could go back out to sea', 'trapped in a tide pool and cannot escape', 'loose on the shore but caught in the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other - please explain how urgent recovery/removal is'],
-    defaultValue: 'caught on the reef or is partially buried in sand',
+    allowedValues: ['caught on the reef or is ' +
+    'partially buried in sand', 'loose in the shore ' +
+    'break or on the shoreline and could go ' +
+    'back out to sea', 'trapped in a tide pool and ' +
+    'cannot escape', 'loose on the shore but caught in ' +
+    'the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other - please explain how urgent recovery/removal is'],
+    defaultValue: '',
   },
   island: {
     type: String,
     allowedValues: ['Oahu', 'Maui', 'Big Island', 'Kauai', 'Molokai', 'Lanai', 'Kahoolawe', 'Niihau'],
-    defaultValue: 'Oahu',
+    defaultValue: '',
   },
   image: {
     type: String,
@@ -39,7 +45,7 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 const ReportDebris = () => {
   const [imageFile, setImageFile] = useState(null); // State hook for the image file
-  let fRef = useRef(null); // This reference is used to reset the form
+  const fRef = useRef(null); // This reference is used to reset the form
   const submit = (data) => {
     const { type, located, describe, island, image } = data;
 
@@ -100,7 +106,7 @@ const ReportDebris = () => {
       };
       reader.readAsDataURL(imageFile);
     } else {
-      Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID }, (error) => {
+      Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
@@ -116,8 +122,11 @@ const ReportDebris = () => {
 
   const [showTextField, setShowTextField] = useState(false);
 
-  const handleSelectChange = (name, value) => {
-    if (value === 'Other') {
+  const handleSelectChange = (value) => {
+    console.log('Selected value:', value);
+
+    // Check against the actual option values
+    if (value === 'Other - please explain below' || value === 'None of the above, a description follows below') {
       setShowTextField(true);
     } else {
       setShowTextField(false);
@@ -134,12 +143,23 @@ const ReportDebris = () => {
           <h6>1) Drifting in State waters or washed up on the shoreline,</h6>
           <h6>2) Removed from the water and is secured on land, or</h6>
           <h6>3) So large or heavy that you need help to remove it.</h6>
-          <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
+          <AutoForm schema={bridge} onSubmit={submit} ref={fRef}>
             <Card>
               <Card.Body>
-                <SelectField name="type" label="I FOUND/LOCATED THE FOLLOWING" />
-                {showTextField && <TextField name="other" label="Please explain how urgent recovery/removal is" />}
-                <SelectField name="located" label="THIS DEBRIS IS LOCATED" />
+                <SelectField name="type" label="I FOUND/LOCATED THE FOLLOWING" onChange={(value) => handleSelectChange(value)} />
+                {showTextField && (
+                  <Form.Group controlId="otherDescription">
+                    <Form.Label>Please enter your own description of the tyep of debris found:</Form.Label>
+                    <Form.Control type="text" placeholder="Other - please explain" />
+                  </Form.Group>
+                )}
+                <SelectField name="located" label="THIS DEBRIS IS LOCATED" onChange={(value) => handleSelectChange(value)} />
+                {showTextField && (
+                  <Form.Group controlId="other">
+                    <Form.Label>If located offshore, enter latitude and longitude (i.e. 21.3161 -157.8906) or provide a position description and any information on currents and winds that could help in relocating the debris.:</Form.Label>
+                    <Form.Control type="text" placeholder="please explain" />
+                  </Form.Group>
+                )}
                 <SelectField name="describe" label="THE DEBRIS IS BEST DESCRIBED AS:" />
                 <SelectField name="island" label="If on land or in the nearshore waters - indicate which island" />
                 <input type="file" accept="image/*" capture="camera" onChange={handleCapture} />

@@ -2,10 +2,9 @@ import AWS from 'aws-sdk';
 import { Meteor } from 'meteor/meteor';
 
 AWS.config.update({
-  accessKeyId: 'AWS ACCESS_KEY',
-  secretAccessKey: 'AWS_SECRET_KEY',
+  accessKeyId: 'AKIAQKXP2WUSILC62T2D',
+  secretAccessKey: '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',
   region: 'us-west-1',
-
 });
 
 const s3 = new AWS.S3();

@@ -29,12 +29,12 @@ class StuffsCollection {
       type: {
         type: String,
         allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
-        defaultValue: 'A mass of netting and/or fishing gear',
+        defaultValue: '',
       },
       located: {
         type: String,
         allowedValues: ['At sea, BEYOND three miles from ' +
-        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows bellow'],
+        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows below'],
         defaultValue: 'At sea, BEYOND three miles from nearest land',
       },
       describe: {
