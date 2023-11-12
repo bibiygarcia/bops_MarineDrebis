@@ -78,7 +78,21 @@ class StuffsCollection {
         type: String,
         optional: true,
       },
+      customTypeDescription: {
+        type: String,
+        optional: true,
+        custom() {
+          // Custom validation logic for the customTypeDescription field
+          const typeValue = this.field('type').value;
+          const customValue = this.value;
 
+          if (typeValue === 'Other - please explain below' && !customValue) {
+            return 'Custom description is required for "Other" type.';
+          }
+
+          return undefined; // Validation passed
+        },
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

@@ -12,7 +12,7 @@ const formSchema = new SimpleSchema({
   type: {
     type: String,
     allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other - please explain below'],
-    defaultValue: '',
+    defaultValue: 'A mass of netting and/or fishing gear',
   },
   located: {
     type: String,
@@ -38,6 +38,21 @@ const formSchema = new SimpleSchema({
   image: {
     type: String,
     optional: true,
+  },
+  customTypeDescription: {
+    type: String,
+    optional: true,
+    custom() {
+      // Custom validation logic for the customTypeDescription field
+      const typeValue = this.field('type').value;
+      const customValue = this.value;
+
+      if (typeValue === 'Other - please explain below' && !customValue) {
+        return 'Custom description is required for "Other" type.';
+      }
+
+      return undefined; // Validation passed
+    },
   },
 });
 
@@ -121,6 +136,7 @@ const ReportDebris = () => {
   };
 
   const [showTextField, setShowTextField] = useState(false);
+  const [customTypeDescription, setCustomTypeDescription] = useState('');
 
   const handleSelectChange = (value) => {
     console.log('Selected value:', value);
@@ -131,6 +147,13 @@ const ReportDebris = () => {
     } else {
       setShowTextField(false);
     }
+  };
+
+  const handleCustomTypeDescriptionChange = (event) => {
+    // Update the state with the entered text
+    const customValue = event.target.value;
+    setCustomTypeDescription(String(customValue));
+    setType(customValue);
   };
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
@@ -146,20 +169,25 @@ const ReportDebris = () => {
           <AutoForm schema={bridge} onSubmit={submit} ref={fRef}>
             <Card>
               <Card.Body>
-                <SelectField name="type" label="I FOUND/LOCATED THE FOLLOWING" onChange={(value) => handleSelectChange(value)} />
+                <SelectField name="type" label="Select Type" onChange={(value) => handleSelectChange(value)} />
                 {showTextField && (
                   <Form.Group controlId="otherDescription">
-                    <Form.Label>Please enter your own description of the tyep of debris found:</Form.Label>
-                    <Form.Control type="text" placeholder="Other - please explain" />
+                    <Form.Label>Please enter your own description of the type of debris found:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Other - please explain"
+                      value={customTypeDescription}
+                      onChange={handleCustomTypeDescriptionChange}
+                    />
                   </Form.Group>
                 )}
-                <SelectField name="located" label="THIS DEBRIS IS LOCATED" onChange={(value) => handleSelectChange(value)} />
-                {showTextField && (
-                  <Form.Group controlId="other">
-                    <Form.Label>If located offshore, enter latitude and longitude (i.e. 21.3161 -157.8906) or provide a position description and any information on currents and winds that could help in relocating the debris.:</Form.Label>
-                    <Form.Control type="text" placeholder="please explain" />
-                  </Form.Group>
-                )}
+                <SelectField name="located" label="THIS DEBRIS IS LOCATED" />
+                {/* {showTextField && ( */}
+                {/*  <Form.Group controlId="other"> */}
+                {/*    <Form.Label>If located offshore, enter latitude and longitude (i.e. 21.3161 -157.8906) or provide a position description and any information on currents and winds that could help in relocating the debris.:</Form.Label> */}
+                {/*    <Form.Control type="text" placeholder="please explain" /> */}
+                {/*  </Form.Group> */}
+                {/* )} */}
                 <SelectField name="describe" label="THE DEBRIS IS BEST DESCRIBED AS:" />
                 <SelectField name="island" label="If on land or in the nearshore waters - indicate which island" />
                 <input type="file" accept="image/*" capture="camera" onChange={handleCapture} />
@@ -173,5 +201,9 @@ const ReportDebris = () => {
     </Container>
   );
 };
+
+// console.log('Values before clean:', yourFormValues);
+// cleanedValues = YourSimpleSchema.clean(yourFormValues);
+// console.log('Values after clean:', cleanedValues);
 
 export default ReportDebris;
