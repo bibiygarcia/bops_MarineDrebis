@@ -129,6 +129,10 @@ const ReportDebris = () => {
         }
       });
     }
+    Stuffs.collection.update({ _id: stuff._id }, { $set: { type, located, describe, island, image } });
+    swal('Success', 'Item updated successfully', 'success');
+    swal('Error', error.message, 'error');
+
   };
 
   const handleCapture = (e) => {
@@ -137,6 +141,7 @@ const ReportDebris = () => {
 
   const [showTextField, setShowTextField] = useState(false);
   const [customTypeDescription, setCustomTypeDescription] = useState('');
+  const [type, setType] = useState('');
 
   const handleSelectChange = (value) => {
     console.log('Selected value:', value);
@@ -147,6 +152,7 @@ const ReportDebris = () => {
     } else {
       setShowTextField(false);
     }
+    setType(value);
   };
 
   const handleCustomTypeDescriptionChange = (event) => {
@@ -201,9 +207,5 @@ const ReportDebris = () => {
     </Container>
   );
 };
-
-// console.log('Values before clean:', yourFormValues);
-// cleanedValues = YourSimpleSchema.clean(yourFormValues);
-// console.log('Values after clean:', cleanedValues);
 
 export default ReportDebris;
