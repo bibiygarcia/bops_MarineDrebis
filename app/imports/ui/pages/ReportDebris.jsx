@@ -28,7 +28,7 @@ const formSchema = new SimpleSchema({
     'back out to sea', 'trapped in a tide pool and ' +
     'cannot escape', 'loose on the shore but caught in ' +
     'the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other'],
-    defaultValue: '',
+    defaultValue: 'caught on the reef or is partially buried in sand',
   },
   island: {
     type: String,
@@ -47,6 +47,10 @@ const formSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  customDescriptionDescription: {
+    type: String,
+    optional: true,
+  },
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -59,6 +63,7 @@ const ReportDebris = () => {
   const [showTextField3, setShowTextField3] = useState(false);
   const [customTypeDescription, setCustomTypeDescription] = useState('');
   const [customLocatedDescription, setCustomLocatedDescription] = useState('');
+  const [customDescriptionDescription, setCustomDescriptionDescription] = useState('');
   const [type, setType] = useState('');
   const [located, setLocated] = useState('');
   const [describe, setDescribe] = useState('');
@@ -109,7 +114,7 @@ const ReportDebris = () => {
             // eslint-disable-next-line no-param-reassign
             data.image = response;
 
-            Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription }, () => {
+            Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription, customDescriptionDescription }, () => {
               if (error) {
                 swal('Error', error.message, 'error');
               } else {
@@ -123,17 +128,19 @@ const ReportDebris = () => {
       };
       reader.readAsDataURL(imageFile);
     } else {
-      Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription }, (error) => {
+      Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription, customDescriptionDescription }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
           swal('Success', 'Item added successfully', 'success');
+          fRef.current.reset();
         }
       });
     }
-    Stuffs.collection.update({ _id: stuff._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription } });
+    Stuffs.collection.update({ _id: stuff._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription, customDescriptionDescription } });
     swal('Success', 'Item updated successfully', 'success');
     swal('Error', error.message, 'error');
+    fRef.current.reset();
   };
 
   const handleCapture = (e) => {
@@ -153,6 +160,14 @@ const ReportDebris = () => {
     setCustomLocatedDescription(String(customValue));
     // setType(customValue);
   };
+
+  const handleCustomDescriptionChange = (event) => {
+    // Update the state with the entered text
+    const customValue = event.target.value;
+    setCustomDescriptionDescription(String(customValue));
+    // setType(customValue);
+  };
+
   const handleSelectChange1 = (value) => {
     console.log('Selected value:', value);
     // Check against the actual option values
@@ -176,6 +191,19 @@ const ReportDebris = () => {
     } else {
       setShowTextField2(false);
       setLocated(value);
+    }
+  };
+
+  const handleSelectChange3 = (value) => {
+    console.log('Selected value:', value);
+    // Check against the actual option values
+    if (value === 'Other') {
+      setShowTextField3(true);
+      setDescribe(value);
+      console.log('Selected value:', value);
+    } else {
+      setShowTextField3(false);
+      setDescribe(value);
     }
   };
 
@@ -216,7 +244,22 @@ const ReportDebris = () => {
                     />
                   </Form.Group>
                 )}
-                <SelectField name="describe" label="THE DEBRIS IS BEST DESCRIBED AS:" />
+
+                <SelectField name="describe" label="THE DEBRIS IS BEST DESCRIBED AS:" onChange={(value) => handleSelectChange3(value)} value={describe} />
+                {showTextField3 && (
+                  <Form.Group controlId="other">
+                    <Form.Label>
+                      Enter custom description of the debris:
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="please describe"
+                      value={customDescriptionDescription}
+                      onChange={(value) => handleCustomDescriptionChange(value)}
+                    />
+                  </Form.Group>
+                )}
+
                 <SelectField name="island" label="If on land or in the nearshore waters - indicate which island" />
                 <input type="file" accept="image/*" capture="camera" onChange={handleCapture} />
                 <SubmitField value="Submit" />

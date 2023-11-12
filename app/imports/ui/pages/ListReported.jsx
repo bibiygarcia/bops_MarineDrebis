@@ -37,6 +37,7 @@ const ReportedItems = ({ stuff }) => {
         <td>{stuff.located}</td>
         <td>{stuff.customLocatedDescription}</td>
         <td>{stuff.describe}</td>
+        <td>{stuff.customDescriptionDescription}</td>
         <td><Button onClick={handleDetailsClick}>Details</Button></td>
         <td><Button onClick={handleShow}>Claim</Button></td>
       </tr>
@@ -90,6 +91,7 @@ const ListReported = () => {
                 <th>Located</th>
                 <th>Located: Other</th>
                 <th>Describe</th>
+                <th>Describe: Other</th>
                 <th>Details</th>
                 <th>Claim</th>
               </tr>

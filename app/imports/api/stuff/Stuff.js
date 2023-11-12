@@ -39,11 +39,12 @@ class StuffsCollection {
       },
       describe: {
         type: String,
-        allowedValues: ['caught on the reef or is partially buried in sand',
-          'loose in the shore break or on the shoreline and ' +
-          'could go back out to sea', 'trapped in a tide ' +
-          'pool and cannot escape', 'loose on the shore ' +
-          'but caught in the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other - please explain how urgent recovery/removal is'],
+        allowedValues: ['caught on the reef or is ' +
+        'partially buried in sand', 'loose in the shore ' +
+        'break or on the shoreline and could go ' +
+        'back out to sea', 'trapped in a tide pool and ' +
+        'cannot escape', 'loose on the shore but caught in ' +
+        'the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other'],
         defaultValue: 'caught on the reef or is partially buried in sand',
       },
       island: {
@@ -83,6 +84,10 @@ class StuffsCollection {
         optional: true,
       },
       customLocatedDescription: {
+        type: String,
+        optional: true,
+      },
+      customDescriptionDescription: {
         type: String,
         optional: true,
       },
