@@ -34,7 +34,7 @@ class StuffsCollection {
       located: {
         type: String,
         allowedValues: ['At sea, BEYOND three miles from ' +
-        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows below'],
+        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'Other'],
         defaultValue: 'At sea, BEYOND three miles from nearest land',
       },
       describe: {
@@ -81,17 +81,10 @@ class StuffsCollection {
       customTypeDescription: {
         type: String,
         optional: true,
-        custom() {
-          // Custom validation logic for the customTypeDescription field
-          const typeValue = this.field('type').value;
-          const customValue = this.value;
-
-          if (typeValue === 'Other - please explain below' && !customValue) {
-            return 'Custom description is required for "Other" type.';
-          }
-
-          return undefined; // Validation passed
-        },
+      },
+      customLocatedDescription: {
+        type: String,
+        optional: true,
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
