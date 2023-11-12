@@ -61,9 +61,14 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 const ReportDebris = () => {
   const [imageFile, setImageFile] = useState(null); // State hook for the image file
   const fRef = useRef(null); // This reference is used to reset the form
-  const submit = (data) => {
-    const { type, located, describe, island, image } = data;
+  const [showTextField, setShowTextField] = useState(false);
+  const [customTypeDescription, setCustomTypeDescription] = useState('');
+  const [type, setType] = useState('');
 
+  const submit = (data) => {
+    console.log('Type', type);
+
+    const { located, describe, island, image } = data;
     let DFG_ID = 'DFG';
     DFG_ID += '00'; // island
     DFG_ID += '00'; // org
@@ -138,10 +143,6 @@ const ReportDebris = () => {
     setImageFile(e.target.files[0]);
   };
 
-  const [showTextField, setShowTextField] = useState(false);
-  const [customTypeDescription, setCustomTypeDescription] = useState('');
-  const [type, setType] = useState('');
-
   const handleCustomTypeDescriptionChange = (event) => {
     // Update the state with the entered text
     const customValue = event.target.value;
@@ -154,6 +155,8 @@ const ReportDebris = () => {
     if (value === 'Other') {
       setShowTextField(true);
       setType(value);
+      console.log('Selected value:', value);
+
     } else {
       setShowTextField(false);
       setType(value);
@@ -205,5 +208,6 @@ const ReportDebris = () => {
     </Container>
   );
 };
+
 
 export default ReportDebris;
