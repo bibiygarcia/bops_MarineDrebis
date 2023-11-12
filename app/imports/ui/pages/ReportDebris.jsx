@@ -147,7 +147,7 @@ const ReportDebris = () => {
     // setType(customValue);
   };
 
-  const handleCustomLocatedDescriptionChange = (event) => {
+  const handleCustomLocatedChange = (event) => {
     // Update the state with the entered text
     const customValue = event.target.value;
     setCustomLocatedDescription(String(customValue));
