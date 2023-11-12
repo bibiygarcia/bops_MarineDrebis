@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 const OtherSubmit = () => (
   <Container className="p-5">
@@ -13,7 +13,7 @@ const OtherSubmit = () => (
         </p>
         <div className=" p-2 d-grid gap-2">
           <Button variant="danger" href="/" size="lg">
-              Report Debris
+            Report Debris
           </Button>
         </div>
       </Col>

@@ -35,7 +35,7 @@ const EditProfile = () => {
   // On successful submit, insert the data.
   const submit = (data) => {
     const { firstname, lastname, email, bio, password } = data;
-    Stuffs.collection.update(_id, { $set: { firstname, lastname, email, password, bio } }, (error) => (error ?
+    Stuffs.collection.update(_id, { $set: { firstname, lastname, email, bio, password } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Profile updated successfully', 'success')));
   };
