@@ -29,7 +29,7 @@ class StuffsCollection {
       type: {
         type: String,
         allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
-        defaultValue: '',
+        defaultValue: 'A mass of netting and/or fishing gear',
       },
       located: {
         type: String,

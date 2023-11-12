@@ -11,13 +11,13 @@ import { Stuffs } from '../../api/stuff/Stuff';
 const formSchema = new SimpleSchema({
   type: {
     type: String,
-    allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other - please explain below'],
+    allowedValues: ['A mass of netting and/or fishing gear', 'An abandoned/derelict boat', 'A container/drum/cylinder', 'A large concentration of plastics', 'Potential Japan tsunami marine debris', 'Other'],
     defaultValue: 'A mass of netting and/or fishing gear',
   },
   located: {
     type: String,
     allowedValues: ['At sea, BEYOND three miles ' +
-    'from nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows below'],
+    'from nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'Other'],
     defaultValue: '',
   },
   describe: {
@@ -132,7 +132,6 @@ const ReportDebris = () => {
     Stuffs.collection.update({ _id: stuff._id }, { $set: { type, located, describe, island, image } });
     swal('Success', 'Item updated successfully', 'success');
     swal('Error', error.message, 'error');
-
   };
 
   const handleCapture = (e) => {
@@ -143,23 +142,22 @@ const ReportDebris = () => {
   const [customTypeDescription, setCustomTypeDescription] = useState('');
   const [type, setType] = useState('');
 
-  const handleSelectChange = (value) => {
-    console.log('Selected value:', value);
-
-    // Check against the actual option values
-    if (value === 'Other - please explain below' || value === 'None of the above, a description follows below') {
-      setShowTextField(true);
-    } else {
-      setShowTextField(false);
-    }
-    setType(value);
-  };
-
   const handleCustomTypeDescriptionChange = (event) => {
     // Update the state with the entered text
     const customValue = event.target.value;
     setCustomTypeDescription(String(customValue));
-    setType(customValue);
+    //setType(customValue);
+  };
+  const handleSelectChange = (value) => {
+    console.log('Selected value:', value);
+    // Check against the actual option values
+    if (value === 'Other') {
+      setShowTextField(true);
+      setType(value);
+    } else {
+      setShowTextField(false);
+      setType(value);
+    }
   };
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
@@ -175,15 +173,15 @@ const ReportDebris = () => {
           <AutoForm schema={bridge} onSubmit={submit} ref={fRef}>
             <Card>
               <Card.Body>
-                <SelectField name="type" label="Select Type" onChange={(value) => handleSelectChange(value)} />
+                <SelectField name="type" label="Select Type" onChange={(value) => handleSelectChange(value)} value = {type}/>
                 {showTextField && (
                   <Form.Group controlId="otherDescription">
                     <Form.Label>Please enter your own description of the type of debris found:</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Other - please explain"
-                      value={customTypeDescription}
                       onChange={handleCustomTypeDescriptionChange}
+                      value={customTypeDescription}
                     />
                   </Form.Group>
                 )}
