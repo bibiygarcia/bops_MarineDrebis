@@ -30,21 +30,26 @@ const NavBar = () => {
             ) : ''}
           </Nav>
           <Nav className="justify-content-end">
+            {Roles.userIsInRole(Meteor.userId(), 'org') ? (
+              <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/organization/landing" key="org">Org</Nav.Link>
+            ) : ''}
             {currentUser === '' ? (
               <NavDropdown id="login-dropdown" title="Login">
                 <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/signin">
-                  <PersonFill />
-                  Sign
-                  in
+                  <PersonFill /> Sign in
                 </NavDropdown.Item>
                 <NavDropdown.Item id="login-dropdown-sign-up" as={NavLink} to="/signup">
-                  <PersonPlusFill />
-                  Sign
-                  up
+                  <PersonPlusFill /> Sign up
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <NavDropdown id="navbar-current-user" title={currentUser}>
+                <NavDropdown.Item id="navbar-profile" as={NavLink} to="/profile/:_id">
+                  <PersonFill /> Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item id="navbar-edit-profile" as={NavLink} to="/profile/edit/:_id">
+                  <PersonPlusFill /> Edit Profile
+                </NavDropdown.Item>
                 <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
                   <BoxArrowRight />
                   {' '}
