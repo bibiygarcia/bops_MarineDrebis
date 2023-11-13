@@ -5,7 +5,7 @@ import { AutoForm, ErrorsField, HiddenField, SelectField, SubmitField, TextField
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Events } from '../../api/debris/Event';
 import LoadingSpinner from '../components/LoadingSpinner';
 import DetailDistributionField from '../components/DetailDistributionField';
 import DetailProtocolField from '../components/DetailProtocolField';
@@ -13,7 +13,7 @@ import DetailWeightField from '../components/DetailWeightField';
 import DetailDisplayPieGraph from '../components/DetailDisplayPieGraph';
 import DetailAddPartModal from '../components/DetailAddPartModal';
 
-const bridge = new SimpleSchema2Bridge(Stuffs.schema);
+const bridge = new SimpleSchema2Bridge(Events.schema);
 
 const Detail = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
@@ -22,9 +22,9 @@ const Detail = () => {
   const parts = url.split('/');
   const _id = parts[parts.length - 1];
   const { doc, ready } = useTracker(() => {
-    const subscription = Meteor.subscribe(Stuffs.adminPublicationName);
+    const subscription = Meteor.subscribe(Events.adminPublicationName);
     const rdy = subscription.ready();
-    const document = Stuffs.collection.findOne(_id);
+    const document = Events.collection.findOne(_id);
     return {
       doc: document,
       ready: rdy,
@@ -36,7 +36,7 @@ const Detail = () => {
   const submit = (data) => {
     // eslint-disable-next-line no-shadow
     const { name, status, type, located, describe, island, protocol, facility, distribution, wetWeight, dryWeight, parts } = data;
-    Stuffs.collection.update(_id, { $set: { name, status, type, located, describe, island, protocol, facility, distribution, wetWeight, dryWeight, parts } }, (error) => (error ?
+    Events.collection.update(_id, { $set: { name, status, type, located, describe, island, protocol, facility, distribution, wetWeight, dryWeight, parts } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Event updated successfully', 'success')));
   };
@@ -55,11 +55,11 @@ const Detail = () => {
   const handlePartAdd = (newPart) => {
     const updatedParts = doc?.parts ? [...doc.parts, newPart] : [newPart];
 
-    Stuffs.collection.update(_id, { $set: { parts: updatedParts } }, error => {
+    Events.collection.update(_id, { $set: { parts: updatedParts } }, error => {
       if (error) {
         swal('Error', error.message, 'error');
       } else {
-        const updatedDoc = Stuffs.collection.findOne(_id);
+        const updatedDoc = Events.collection.findOne(_id);
 
         if (updatedDoc?.parts) {
           const totalWeight = updatedDoc.parts.map(part => part.weight)
@@ -76,11 +76,11 @@ const Detail = () => {
     const updatedParts = [...doc.parts];
     updatedParts.splice(index, 1);
 
-    Stuffs.collection.update(_id, { $set: { parts: updatedParts } }, error => {
+    Events.collection.update(_id, { $set: { parts: updatedParts } }, error => {
       if (error) {
         swal('Error', error.message, 'error');
       } else {
-        const updatedDoc = Stuffs.collection.findOne(_id);
+        const updatedDoc = Events.collection.findOne(_id);
 
         if (updatedDoc?.parts) {
           const totalWeight = updatedDoc.parts.map(part => part.weight)
