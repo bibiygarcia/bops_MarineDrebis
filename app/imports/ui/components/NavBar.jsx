@@ -22,8 +22,7 @@ const NavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto justify-content-start">
             {currentUser ? ([
-              <Nav.Link id="add-stuff-nav" as={NavLink} to="/add" key="add">Add Stuff</Nav.Link>,
-              <Nav.Link id="add-stuff-nav" as={NavLink} to="/report" key="report">Report Debris</Nav.Link>,
+              <Nav.Link id="list-stuff-nav" as={NavLink} to="/report" key="report">Report Debris</Nav.Link>,
               <Nav.Link id="list-stuff-nav" as={NavLink} to="/list" key="list">Everything</Nav.Link>,
               <Nav.Link id="list-stuff-nav" as={NavLink} to="/reported" key="reported">Reported</Nav.Link>,
               <Nav.Link id="list-stuff-nav" as={NavLink} to="/claimed" key="claimed">Claimed</Nav.Link>,
@@ -54,9 +53,6 @@ const NavBar = () => {
               <NavDropdown id="navbar-current-user" title={currentUser}>
                 <NavDropdown.Item id="navbar-profile" as={NavLink} to="/profile/:_id">
                   <PersonFill /> Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item id="navbar-edit-profile" as={NavLink} to="/profile/edit/:_id">
-                  <PersonPlusFill /> Edit Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
                   <BoxArrowRight />

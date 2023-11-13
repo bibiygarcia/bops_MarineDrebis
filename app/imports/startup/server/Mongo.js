@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Profiles } from '../../api/profile/Profiles';
 import { Debris } from '../../api/debris/Debris.js';
 import { Samples } from '../../api/debris/Sample.js';
 import { Subsamples } from '../../api/debris/Subsample.js';
@@ -8,16 +9,16 @@ import { Components } from '../../api/debris/Component.js';
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
-const addData = (data) => {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Debris.collection.insert(data);
+const addProfiles = (profile) => {
+  console.log(`  Adding: ${profile.firstName} ${profile.lastName} ${profile.age} `);
+  Profiles.collection.insert(profile);
 };
 
-// Initialize the DebrisCollection if empty.
-if (Debris.collection.find().count() === 0) {
-  if (Meteor.settings.defaultData) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultData.forEach(data => addData(data));
+// Initialize the ProfilesCollection if empty.
+if (Profiles.collection.find().count() === 0) {
+  if (Meteor.settings.defaultProfile) {
+    console.log('Creating default profile.');
+    Meteor.settings.defaultProfile.forEach(profile => addProfiles(profile));
   }
 }
 

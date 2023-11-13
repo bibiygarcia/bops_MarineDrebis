@@ -10,7 +10,6 @@ import { Profiles } from '../../api/profile/Profiles';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const bridge = new SimpleSchema2Bridge(Profiles.schema);
-
 /* Renders the EditStuff page for editing a single document. */
 const EditProfile = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
@@ -37,7 +36,6 @@ const EditProfile = () => {
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   };
-
   return ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
@@ -58,5 +56,4 @@ const EditProfile = () => {
     </Container>
   ) : <LoadingSpinner />;
 };
-
 export default EditProfile;
