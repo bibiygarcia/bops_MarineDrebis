@@ -110,18 +110,18 @@ const ListClaimed = () => {
           </Col>
           <Table striped bordered hover>
             <thead>
-            <tr>
-              <th>Island</th>
-              <th>City</th>
-              <th>Type</th>
-              <th>Located</th>
-              <th>Details</th>
-              <th>Release</th>
-              <th>Store</th>
-            </tr>
+              <tr>
+                <th>Island</th>
+                <th>City</th>
+                <th>Type</th>
+                <th>Located</th>
+                <th>Details</th>
+                <th>Release</th>
+                <th>Store</th>
+              </tr>
             </thead>
             <tbody>
-            {debris.map((debris) => <ClaimedItems key={debris._id} debris={debris} />)}
+              {debris.map((debris) => <ClaimedItems key={debris._id} debris={debris} />)}
             </tbody>
           </Table>
         </Col>
