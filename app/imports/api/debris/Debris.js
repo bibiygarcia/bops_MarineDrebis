@@ -2,12 +2,12 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 /**
- * The StuffsCollection. It encapsulates state and variable values for stuff.
+ * The DebrisCollection. It encapsulates state and variable values for stuff.
  */
-class StuffsCollection {
+class DebrisCollection {
   constructor() {
     // The name of this collection.
-    this.name = 'StuffsCollection';
+    this.name = 'DebrisCollection';
     // Define the Mongo collection.
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
@@ -20,7 +20,10 @@ class StuffsCollection {
         type: Number,
         optional: true,
       },
-      owner: String,
+      owner: {
+        type: String,
+        optional: true,
+      },
       status: {
         type: String,
         allowedValues: ['unclaimed', 'claimed', 'stored', 'disposed'],
@@ -34,16 +37,17 @@ class StuffsCollection {
       located: {
         type: String,
         allowedValues: ['At sea, BEYOND three miles from ' +
-        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'None of the above, a description follows bellow'],
+        'nearest land', 'At sea, WITHIN three miles of nearest land', 'In the shore break', 'On the beach BELOW the high wash of the waves', 'On the beach ABOVE the high wash of the waves', 'Other'],
         defaultValue: 'At sea, BEYOND three miles from nearest land',
       },
       describe: {
         type: String,
-        allowedValues: ['caught on the reef or is partially buried in sand',
-          'loose in the shore break or on the shoreline and ' +
-          'could go back out to sea', 'trapped in a tide ' +
-          'pool and cannot escape', 'loose on the shore ' +
-          'but caught in the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other - please explain how urgent recovery/removal is'],
+        allowedValues: ['caught on the reef or is ' +
+        'partially buried in sand', 'loose in the shore ' +
+        'break or on the shoreline and could go ' +
+        'back out to sea', 'trapped in a tide pool and ' +
+        'cannot escape', 'loose on the shore but caught in ' +
+        'the vegetation line', 'tied to a fixed object so it cannot be swept away', 'pushed inland above the high wash of the waves so it cannot be swept away', 'Other'],
         defaultValue: 'caught on the reef or is partially buried in sand',
       },
       island: {
@@ -65,6 +69,7 @@ class StuffsCollection {
       },
       'sampleIds.$': {
         type: String,
+        optional: true,
       },
       hasSamples: {
         type: Boolean,
@@ -78,7 +83,53 @@ class StuffsCollection {
         type: String,
         optional: true,
       },
-
+      claimedAt: {
+        type: SimpleSchema.Integer,
+        optional: true,
+      },
+      distribution: {
+        type: Number,
+        optional: true,
+      },
+      wetWeight: {
+        type: Number,
+        optional: true,
+        min: 0,
+      },
+      dryWeight: {
+        type: Number,
+        optional: true,
+        min: 0,
+      },
+      parts: {
+        type: Array,
+        optional: true,
+      },
+      'parts.$': Object,
+      'parts.$.name': {
+        type: String,
+        optional: true,
+      },
+      'parts.$.distribution': {
+        type: Number,
+        optional: true,
+      },
+      'parts.$.weight': {
+        type: Number,
+        optional: true,
+      },
+      customTypeDescription: {
+        type: String,
+        optional: true,
+      },
+      customLocatedDescription: {
+        type: String,
+        optional: true,
+      },
+      customDescriptionDescription: {
+        type: String,
+        optional: true,
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
@@ -94,7 +145,7 @@ class StuffsCollection {
 }
 
 /**
- * The singleton instance of the StuffsCollection.
- * @type {StuffsCollection}
+ * The singleton instance of the DebrisCollection.
+ * @type {DebrisCollection}
  */
-export const Stuffs = new StuffsCollection();
+export const Debris = new DebrisCollection();

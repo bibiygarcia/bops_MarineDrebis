@@ -3,34 +3,34 @@ import { Meteor } from 'meteor/meteor';
 import { Col, Container, Row, Table, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useNavigate } from 'react-router-dom';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Debris } from '../../api/debris/Debris';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const DisposedItems = ({ stuff }) => {
+const DisposedItems = ({ debris }) => {
   const navigate = useNavigate();
 
   // Action for "Details" button
   const handleDetailsClick = () => {
-    navigate(`/details/${stuff._id}`);
+    navigate(`/details/${debris._id}`);
   };
 
   return (
     <tr>
-      <td>{stuff.result}</td>
-      <td>{stuff.type}</td>
+      <td>{debris.result}</td>
+      <td>{debris.type}</td>
       <td><Button onClick={handleDetailsClick}>Details</Button></td>
     </tr>
   );
 };
 
 const ListDisposed = () => {
-  const { ready, stuffs } = useTracker(() => {
-    const subscription = Meteor.subscribe(Stuffs.disposed);
+  const { ready, debris } = useTracker(() => {
+    const subscription = Meteor.subscribe(Debris.disposed);
     const rdy = subscription.ready();
-    const disposedItems = Stuffs.collection.find().fetch();
+    const disposedItems = Debris.collection.find().fetch();
 
     return {
-      stuffs: disposedItems,
+      debris: disposedItems,
       ready: rdy,
     };
   }, []);
@@ -44,14 +44,14 @@ const ListDisposed = () => {
           </Col>
           <Table striped bordered hover>
             <thead>
-              <tr>
-                <th>Result</th>
-                <th>Type</th>
-                <th>Details</th>
-              </tr>
+            <tr>
+              <th>Result</th>
+              <th>Type</th>
+              <th>Details</th>
+            </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <DisposedItems key={stuff._id} stuff={stuff} />)}
+            {debris.map((debris) => <DisposedItems key={debris._id} debris={debris} />)}
             </tbody>
           </Table>
         </Col>
