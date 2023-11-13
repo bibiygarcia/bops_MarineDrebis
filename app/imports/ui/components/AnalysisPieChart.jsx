@@ -3,7 +3,7 @@ import { Pie } from 'react-chartjs-2';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { ArcElement, CategoryScale, Chart, Legend } from 'chart.js';
-import { Events } from '../../api/debris/Event';
+import { Stuffs } from '../../api/stuff/Stuff';
 import LoadingSpinner from './LoadingSpinner';
 
 // TODO: check if this works correctly. It does show the pie chart, but it doesn't seem to be displaying the correct data
@@ -18,19 +18,19 @@ const AnalysisPieChart = () => {
     3: 'Turned into power',
   };
 
-  const { events, ready } = useTracker(() => {
-    const subscription = Meteor.subscribe(Events.analysis);
+  const { stuffs, ready } = useTracker(() => {
+    const subscription = Meteor.subscribe(Stuffs.analysis);
     return {
       ready: subscription.ready(),
-      events: Events.collection.find().fetch(),
+      stuffs: Stuffs.collection.find().fetch(),
     };
   }, []);
 
   useEffect(() => {
     const distributionCounts = {};
 
-    events.forEach((event) => {
-      event.parts?.forEach((part) => {
+    stuffs.forEach((stuff) => {
+      stuff.parts?.forEach((part) => {
         distributionCounts[part.distribution] = distributionCounts[part.distribution]
           ? distributionCounts[part.distribution] + part.weight
           : part.weight;
@@ -64,7 +64,7 @@ const AnalysisPieChart = () => {
       },
     });
 
-  }, [events]);
+  }, [stuffs]);
 
   return (ready ? (
     <div>

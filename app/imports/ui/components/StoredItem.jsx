@@ -4,10 +4,10 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { ArrowLeftRight, CheckSquareFill, PencilSquare, PeopleFill } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
-import { Samples } from '../../api/debris/Sample';
-import { Events } from '../../api/debris/Event';
+import { Samples } from '../../api/stuff/Sample';
+import { Stuffs } from '../../api/stuff/Stuff';
 
-const StoredItem = ({ event }) => {
+const StoredItem = ({ stuff }) => {
   const navigate = useNavigate();
   const [showDispose, setShowDispose] = useState(false);
   const [showNewSample, setShowNewSample] = useState(false);
@@ -16,17 +16,17 @@ const StoredItem = ({ event }) => {
 
   // Action for "Details" button
   const handleDetailsClick = () => {
-    navigate(`/detail/${event._id}`);
+    navigate(`/detail/${stuff._id}`);
   };
 
   // Action for "Transfer" button
   const handleTransferClick = () => {
-    navigate(`/transfer/${event._id}`);
+    navigate(`/transfer/${stuff._id}`);
   };
 
   // Actions for "Sample" button
   const handleExistingSampleClick = () => {
-    navigate(`/analysis#${event.event_id}`);
+    navigate(`/analysis#${stuff.event_id}`);
   };
 
   // if none exists: ask what sample protocol they are using 1-6 via dropdown
@@ -36,7 +36,7 @@ const StoredItem = ({ event }) => {
   const handleNewSample = () => {
     const newSampleId = Samples.collection.insert({
       name: 'Sample Initial',
-      event_id: 'a', // event.eventId
+      event_id: 'a', // stuff.eventId
       sample_id: '0001',
       // eslint-disable-next-line no-unused-vars
     }, (err, _id) => { // callback function to get the _id of the inserted document
@@ -45,11 +45,11 @@ const StoredItem = ({ event }) => {
         // eslint-disable-next-line no-console
         console.error('Could not insert new sample:', err);
       } else {
-        Meteor.call('events.linkSamplesWithEvent', event._id, [newSampleId], selectedProtocol, (error) => {
+        Meteor.call('stuffs.linkSamplesWithEvent', stuff._id, [newSampleId], selectedProtocol, (error) => {
           if (error) {
             // TODO add error handling
             // eslint-disable-next-line no-console
-            console.log(`Creating a sample for ${event._id} failed${error}`);
+            console.log(`Creating a sample for ${stuff._id} failed${error}`);
           } else {
             handleCloseNewSample();
           }
@@ -70,18 +70,18 @@ const StoredItem = ({ event }) => {
   const handleShowDispose = () => setShowDispose(true);
 
   const handleDispose = () => {
-    Meteor.call('events.dispose', event._id, selectedDistribution, (error) => {
+    Meteor.call('stuffs.dispose', stuff._id, selectedDistribution, (error) => {
       if (error) {
         // TODO add error handling
         // eslint-disable-next-line no-console
-        console.log(`Marking ${event._id} as disposed failed`);
+        console.log(`Marking ${stuff._id} as disposed failed`);
       } else {
         handleCloseDispose();
       }
     });
   };
 
-  const eventItem = Events.collection.findOne(event._id);
+  const eventItem = Stuffs.collection.findOne(stuff._id);
 
   const SampleButton = (eventItem && (!eventItem.sampleIds || eventItem.sampleIds.length === 0)) ?
     <Button onClick={handleShowNewSample} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Create</Button> :
@@ -90,8 +90,8 @@ const StoredItem = ({ event }) => {
   return (
     <>
       <tr>
-        <td>{event.facility}</td>
-        {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
+        <td>{stuff.facility}</td>
+        {stuff.type === 'Other' ? <td>{stuff.customTypeDescription}</td> : <td>{stuff.type}</td>}
         <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
         <td><Button variant="secondary" onClick={handleTransferClick}><ArrowLeftRight /> <PeopleFill /></Button></td>
         <td>{SampleButton}</td>
@@ -164,7 +164,7 @@ const StoredItem = ({ event }) => {
 };
 
 StoredItem.propTypes = {
-  event: PropTypes.shape({
+  stuff: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     event_id: PropTypes.string,
     facility: PropTypes.string,

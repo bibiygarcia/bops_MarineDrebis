@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { Events } from '../../api/debris/Event.js';
+import { Profiles } from '../../api/profile/Profiles';
+import { Debris } from '../../api/debris/Debris.js';
 import { Samples } from '../../api/debris/Sample.js';
 import { Subsamples } from '../../api/debris/Subsample.js';
 import { Components } from '../../api/debris/Component.js';
@@ -8,72 +9,62 @@ import { Components } from '../../api/debris/Component.js';
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
-const addData = (data) => {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Events.collection.insert(data);
+const addProfiles = (profile) => {
+  console.log(`  Adding: ${profile.firstName} ${profile.lastName} ${profile.age} `);
+  Profiles.collection.insert(profile);
 };
 
-// Initialize the StuffsCollection if empty.
-if (Events.collection.find().count() === 0) {
-  if (Meteor.settings.defaultData) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultData.forEach(data => addData(data));
+// Initialize the ProfilesCollection if empty.
+if (Profiles.collection.find().count() === 0) {
+  if (Meteor.settings.defaultProfile) {
+    console.log('Creating default profile.');
+    Meteor.settings.defaultProfile.forEach(profile => addProfiles(profile));
   }
 }
 
 Meteor.methods({
-  'events.claim'(itemId, newOwner) {
-    check(itemId, String);
-    check(newOwner, String);
+  'Debris.claim'(itemId, newOwner) {
     // TODO: Add validation and permission checks (they might be allowed to move it)
-    Events.collection.update(itemId, { $set: { status: 'claimed' } });
-    Events.collection.update(itemId, { $set: { owner: newOwner } });
-    Events.collection.update(itemId, { $set: { claimedAt: Date.now() } });
+    Debris.collection.update(itemId, { $set: { status: 'claimed' } });
+    Debris.collection.update(itemId, { $set: { owner: newOwner } });
   },
 });
 
 Meteor.methods({
-  'events.release'(itemId) {
-    check(itemId, String);
+  'Debris.release'(itemId) {
     // TODO: Add validation and permission checks (they might be allowed to move it)
-    Events.collection.update(itemId, { $set: { status: 'unclaimed' } });
+    Debris.collection.update(itemId, { $set: { status: 'unclaimed' } });
     // currently does not change owner back
   },
 });
 
 Meteor.methods({
-  'events.store'(itemId) {
-    check(itemId, String);
+  'Debris.store'(itemId) {
     // TODO: Add validation and permission checks (they might be allowed to move it)
-    Events.collection.update(itemId, { $set: { status: 'stored' } });
+    Debris.collection.update(itemId, { $set: { status: 'stored' } });
   },
 });
 
 // newOwner could be provided through a selection menu
 Meteor.methods({
-  'events.transfer'(itemId, newOwner) {
-    check(itemId, String);
-    check(newOwner, String);
+  'Debris.transfer'(itemId, newOwner) {
     // TODO: Add validation and permission checks (they might be allowed to move it)
-    Events.collection.update(itemId, { $set: { owner: newOwner } });
+    Debris.collection.update(itemId, { $set: { owner: newOwner } });
   },
 });
 
 Meteor.methods({
-  'events.dispose'(itemId, selectedDistribution) {
-    check(itemId, String);
-    check(selectedDistribution, Number);
+  'Debris.dispose'(itemId) {
     // TODO: Add validation and permission checks (they might be allowed to move it)
-    Events.collection.update(itemId, { $set: { status: 'disposed' } });
-    Events.collection.update(itemId, { $set: { distribution: selectedDistribution } });
+    Debris.collection.update(itemId, { $set: { status: 'disposed' } });
   },
 });
 
 // TODO: Make this
 // Meteor.methods({
-//   'events.split'(itemId, quantity) {
+//   'Debris.split'(itemId, quantity) {
 //     // TODO: Add validation and permission checks (they might be allowed to move it)
-//     Events.collection.add([NEW DOCUMENTS WITH SAME BASE ID]);
+//     Debris.collection.add([NEW DOCUMENTS WITH SAME BASE ID]);
 //   },
 // });
 
@@ -82,19 +73,19 @@ Meteor.methods({
 // -----------------------------------------------------------------------------------
 
 Meteor.methods({
-  'events.linkSamplesWithEvent'(eventId, sampleIds, protocol = null) {
+  'Debris.linkSamplesWithEvent'(eventId, sampleIds, protocol = null) {
     check(eventId, String);
     check(sampleIds, [String]);
     protocol && check(protocol, Number);
 
-    const existingEvent = Events.collection.findOne(eventId);
+    const existingEvent = Debris.collection.findOne(eventId);
     if (!existingEvent) {
       throw new Meteor.Error('404', 'Event not found: linkSamplesWithEvent');
     }
 
-    Events.collection.update(eventId, { $addToSet: { sampleIds: { $each: sampleIds } } });
-    Events.collection.update(eventId, { $set: { hasSamples: true } });
-    protocol && Events.collection.update(eventId, { $set: { protocol: protocol } });
+    Debris.collection.update(eventId, { $addToSet: { sampleIds: { $each: sampleIds } } });
+    Debris.collection.update(eventId, { $set: { hasSamples: true } });
+    protocol && Debris.collection.update(eventId, { $set: { protocol: protocol } });
   },
 });
 
@@ -107,7 +98,7 @@ Meteor.methods({
     check(sampleId, String);
     check(subsampleIds, [String]);
 
-    Events.collection.update(sampleId, { $addToSet: { subsampleIds: { $each: subsampleIds } } });
+    Debris.collection.update(sampleId, { $addToSet: { subsampleIds: { $each: subsampleIds } } });
   },
 });
 
@@ -115,10 +106,10 @@ Meteor.methods({
 //  --------------------------       COMPONENTS      ---------------------------------
 // -----------------------------------------------------------------------------------
 Meteor.methods({
-  'events.linkComponentWithSubsamples'(subsampleId, componentIds) {
+  'Debris.linkComponentWithSubsamples'(subsampleId, componentIds) {
     check(subsampleId, String);
     check(componentIds, [String]);
 
-    Events.collection.update(subsampleId, { $addToSet: { componentIds: { $each: componentIds } } });
+    Debris.collection.update(subsampleId, { $addToSet: { componentIds: { $each: componentIds } } });
   },
 });

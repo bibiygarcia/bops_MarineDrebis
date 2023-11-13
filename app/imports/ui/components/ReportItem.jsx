@@ -5,21 +5,21 @@ import { Button, Modal } from 'react-bootstrap';
 import { CheckSquareFill, PencilSquare } from 'react-bootstrap-icons';
 import PropTypes from 'prop-types';
 
-const ReportedItem = ({ event }) => {
+const ReportedItem = ({ stuff }) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   const handleDetailsClick = () => {
-    navigate(`/detail/${event._id}`);
+    navigate(`/detail/${stuff._id}`);
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleClaim = () => {
-    Meteor.call('events.claim', event._id, Meteor.user().username, (error) => {
+    Meteor.call('stuffs.claim', stuff._id, Meteor.user().username, (error) => {
       if (error) {
-        console.log(`Claiming ${event._id} failed`);
+        console.log(`Claiming ${stuff._id} failed`);
       } else {
         handleClose();
       }
@@ -29,11 +29,11 @@ const ReportedItem = ({ event }) => {
   return (
     <>
       <tr>
-        <td>{event.island}</td>
-        <td>{event.city}</td>
-        {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
-        {event.located === 'Other' ? <td>{event.customLocatedDescription}</td> : <td>{event.located}</td>}
-        {event.describe === 'Other' ? <td>{event.customDescriptionDescription}</td> : <td>{event.describe}</td>}
+        <td>{stuff.island}</td>
+        <td>{stuff.city}</td>
+        {stuff.type === 'Other' ? <td>{stuff.customTypeDescription}</td> : <td>{stuff.type}</td>}
+        {stuff.located === 'Other' ? <td>{stuff.customLocatedDescription}</td> : <td>{stuff.located}</td>}
+        {stuff.describe === 'Other' ? <td>{stuff.customDescriptionDescription}</td> : <td>{stuff.describe}</td>}
         <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
         <td><Button onClick={handleShow}><CheckSquareFill /></Button></td>
       </tr>
@@ -58,7 +58,7 @@ const ReportedItem = ({ event }) => {
 };
 
 ReportedItem.propTypes = {
-  event: PropTypes.shape({
+  stuff: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     island: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,

@@ -4,12 +4,12 @@ import { PencilSquare } from 'react-bootstrap-icons';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DisposedItem = ({ event }) => {
+const DisposedItem = ({ stuff }) => {
   const navigate = useNavigate();
 
   // Action for "Details" button
   const handleDetailsClick = () => {
-    navigate(`/detail/${event._id}`);
+    navigate(`/detail/${stuff._id}`);
   };
 
   const distributionTypes = {
@@ -18,19 +18,19 @@ const DisposedItem = ({ event }) => {
     2: 'Reused',
     3: 'Turned into power',
   };
-  const distributionType = distributionTypes[event.distribution];
+  const distributionType = distributionTypes[stuff.distribution];
 
   return (
     <tr>
       <td>{distributionType}</td>
-      {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
+      {stuff.type === 'Other' ? <td>{stuff.customTypeDescription}</td> : <td>{stuff.type}</td>}
       <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
     </tr>
   );
 };
 
 DisposedItem.propTypes = {
-  event: PropTypes.shape({
+  stuff: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     distribution: PropTypes.number,
     type: PropTypes.string.isRequired,
