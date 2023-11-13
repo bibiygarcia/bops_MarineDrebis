@@ -1,74 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Col, Container, Row, Table, Button, Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { Debris } from '../../api/debris/Debris';
+import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Events } from '../../api/debris/Event';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ReportedItem from '../components/ReportItem';
 
-const ReportedItems = ({ debris }) => {
-  const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-
-  const handleDetailsClick = () => {
-    navigate(`/details/${debris._id}`);
-  };
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleClaim = () => {
-    Meteor.call('debris.claim', debris._id, Meteor.user().username, (error) => {
-      if (error) {
-        console.log(`Claiming ${debris._id} failed`);
-      } else {
-        handleClose();
-      }
-    });
-  };
-
-  return (
-    <>
-      <tr>
-        <td>{debris.island}</td>
-        <td>{debris.city}</td>
-        <td>{debris.type}</td>
-        <td>{debris.customTypeDescription}</td>
-        <td>{debris.located}</td>
-        <td>{debris.customLocatedDescription}</td>
-        <td>{debris.describe}</td>
-        <td>{debris.customDescriptionDescription}</td>
-        <td><Button onClick={handleDetailsClick}>Details</Button></td>
-        <td><Button onClick={handleShow}>Claim</Button></td>
-      </tr>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Claim Item</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Do you want to claim this item?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleClaim}>
-            Claim
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-    </>
-  );
-};
-/* Renders a table containing all of the debris documents. Use <ReportedItems> to render each row. */
 const ListReported = () => {
-  const { ready, debris } = useTracker(() => {
-    const subscription = Meteor.subscribe(Debris.unclaimed);
+  const { ready, events } = useTracker(() => {
+    const subscription = Meteor.subscribe(Events.unclaimed);
     const rdy = subscription.ready();
-    const reportedItems = Debris.collection.find().fetch();
+    const reportedItems = Events.collection.find().fetch();
 
     return {
-      debris: reportedItems,
+      events: reportedItems,
       ready: rdy,
     };
   }, []);
@@ -83,21 +28,18 @@ const ListReported = () => {
           </Col>
           <Table striped bordered hover>
             <thead>
-            <tr>
-              <th>Island</th>
-              <th>City</th>
-              <th>Type</th>
-              <th>Type: Other</th>
-              <th>Located</th>
-              <th>Located: Other</th>
-              <th>Describe</th>
-              <th>Describe: Other</th>
-              <th>Details</th>
-              <th>Claim</th>
-            </tr>
+              <tr>
+                <th>Island</th>
+                <th>City</th>
+                <th>Type</th>
+                <th>Located</th>
+                <th>Describe</th>
+                <th>Details</th>
+                <th>Claim</th>
+              </tr>
             </thead>
             <tbody>
-            {debris.map((debris) => <ReportedItems key={debris._id} debris={debris} />)}
+              {events.map((event) => <ReportedItem key={event._id} event={event} />)}
             </tbody>
           </Table>
         </Col>

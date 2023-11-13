@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { Debris } from '../../api/debris/Debris';
+import { Events } from '../../api/debris/Event';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -32,7 +32,7 @@ const AddStuff = () => {
   const submit = (data, formRef) => {
     const { name, quantity, condition, status } = data;
     const owner = Meteor.user().username;
-    Debris.collection.insert(
+    Events.collection.insert(
       { name, quantity, condition, owner, status },
       (error) => {
         if (error) {

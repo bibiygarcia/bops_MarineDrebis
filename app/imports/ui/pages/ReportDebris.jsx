@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { Debris } from '../../api/debris/Debris';
+import { Events } from '../../api/debris/Event';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -85,7 +85,7 @@ const ReportDebris = () => {
     let proposedID = 'FFFFFFFFF';
     do {
       proposedID = [...Array(9)].map(() => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
-      isUnique = Debris.collection.countDocuments({ DFG_ID: proposedID });
+      isUnique = Events.collection.countDocuments({ DFG_ID: proposedID });
     } while (!isUnique);
 
     DFG_ID += proposedID; // id_main 9 characters
@@ -114,7 +114,7 @@ const ReportDebris = () => {
             // eslint-disable-next-line no-param-reassign
             data.image = response;
 
-            Debris.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription, customDescriptionDescription }, () => {
+            Events.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription, customDescriptionDescription }, () => {
               if (error) {
                 swal('Error', error.message, 'error');
               } else {
@@ -128,7 +128,7 @@ const ReportDebris = () => {
       };
       reader.readAsDataURL(imageFile);
     } else {
-      Debris.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription, customDescriptionDescription }, (error) => {
+      Events.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription, customDescriptionDescription }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
@@ -137,7 +137,8 @@ const ReportDebris = () => {
         }
       });
     }
-    Debris.collection.update({ _id: debris._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription, customDescriptionDescription } });
+    // eslint-disable-next-line no-restricted-globals
+    Events.collection.update({ _id: event._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription, customDescriptionDescription } });
     swal('Success', 'Item updated successfully', 'success');
     swal('Error', error.message, 'error');
     fRef.current.reset();

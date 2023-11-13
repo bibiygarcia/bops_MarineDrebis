@@ -2,12 +2,12 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 /**
- * The DebrisCollection. It encapsulates state and variable values for stuff.
+ * The EventsCollection. It encapsulates state and variable values for stuff.
  */
-class DebrisCollection {
+class EventsCollection {
   constructor() {
     // The name of this collection.
-    this.name = 'DebrisCollection';
+    this.name = 'EventsCollection';
     // Define the Mongo collection.
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
@@ -145,7 +145,7 @@ class DebrisCollection {
 }
 
 /**
- * The singleton instance of the DebrisCollection.
- * @type {DebrisCollection}
+ * The singleton instance of the EventsCollection.
+ * @type {EventsCollection}
  */
-export const Debris = new DebrisCollection();
+export const Events = new EventsCollection();

@@ -5,16 +5,16 @@ import { CheckSquareFill, PencilSquare, XSquareFill } from 'react-bootstrap-icon
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 
-const ClaimedItems = ({ stuff }) => {
+const ClaimedItems = ({ event }) => {
   const navigate = useNavigate();
   const [showRelease, setShowRelease] = useState(false);
   const [showStore, setShowStore] = useState(false);
 
-  const claimTime = stuff.claimedAt;
+  const claimTime = event.claimedAt;
   const [timer, setTimer] = useState(claimTime ? Date.now() - claimTime : null);
   // Action for "Details" button
   const handleDetailsClick = () => {
-    navigate(`/detail/${stuff._id}`);
+    navigate(`/detail/${event._id}`);
   };
 
   // Action for "Release" button
@@ -25,11 +25,11 @@ const ClaimedItems = ({ stuff }) => {
   const handleShowStore = () => setShowStore(true);
 
   const handleRelease = () => {
-    Meteor.call('stuffs.release', stuff._id, (error) => {
+    Meteor.call('events.release', event._id, (error) => {
       if (error) {
         // TODO add error handling
         // eslint-disable-next-line no-console
-        console.log(`Releasing ${stuff._id} failed`);
+        console.log(`Releasing ${event._id} failed`);
       } else {
         handleCloseRelease();
       }
@@ -59,11 +59,11 @@ const ClaimedItems = ({ stuff }) => {
   const days = Math.floor(timer / (3600 * 24)).toString();
 
   const handleStore = () => {
-    Meteor.call('stuffs.store', stuff._id, (error) => {
+    Meteor.call('events.store', event._id, (error) => {
       if (error) {
         // TODO add error handling
         // eslint-disable-next-line no-console
-        console.log(`Moving ${stuff._id} to storage failed`);
+        console.log(`Moving ${event._id} to storage failed`);
       } else {
         handleCloseStore();
       }
@@ -73,11 +73,11 @@ const ClaimedItems = ({ stuff }) => {
   return (
     <>
       <tr>
-        <td>{stuff.island}</td>
-        <td>{stuff.city}</td>
-        {stuff.type === 'Other' ? <td>{stuff.customTypeDescription}</td> : <td>{stuff.type}</td>}
-        {stuff.located === 'Other' ? <td>{stuff.customLocatedDescription}</td> : <td>{stuff.located}</td>}
-        {stuff.describe === 'Other' ? <td>{stuff.customDescriptionDescription}</td> : <td>{stuff.describe}</td>}
+        <td>{event.island}</td>
+        <td>{event.city}</td>
+        {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
+        {event.located === 'Other' ? <td>{event.customLocatedDescription}</td> : <td>{event.located}</td>}
+        {event.describe === 'Other' ? <td>{event.customDescriptionDescription}</td> : <td>{event.describe}</td>}
         <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
         <td><Button variant="outline-danger" onClick={handleShowRelease} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}><XSquareFill /> {` ${days}:${hours}:${minutes}:${seconds}`}</Button></td>
         <td><Button onClick={handleShowStore}><CheckSquareFill /></Button></td>
@@ -117,7 +117,7 @@ const ClaimedItems = ({ stuff }) => {
 };
 
 ClaimedItems.propTypes = {
-  stuff: PropTypes.shape({
+  event: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     island: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,

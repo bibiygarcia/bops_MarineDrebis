@@ -1,15 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
-import { Debris } from '../../api/debris/Debris';
+import { Events } from '../../api/debris/Event';
 import { Samples } from '../../api/debris/Sample';
 import { Subsamples } from '../../api/debris/Subsample';
 
 // User-level publication.
 // If logged in, then publish documents owned by this user. Otherwise, publish nothing.
-Meteor.publish(Debris.userPublicationName, function () {
+Meteor.publish(Events.userPublicationName, function () {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
-    return Debris.collection.find({ owner: username });
+    return Events.collection.find({ owner: username });
   }
   return this.ready();
 });
@@ -17,58 +17,58 @@ Meteor.publish(Debris.userPublicationName, function () {
 // PUBLICATIONS FOR ADMIN PAGES
 // Admin-level publication.
 // If logged in and with admin role, then publish all documents from all users. Otherwise, publish nothing.
-Meteor.publish(Debris.adminPublicationName, function () {
+Meteor.publish(Events.adminPublicationName, function () {
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
-    return Debris.collection.find();
+    return Events.collection.find();
   }
   return this.ready();
 });
 
-Meteor.publish(Debris.analysis, function () {
+Meteor.publish(Events.analysis, function () {
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
-    return Debris.collection.find({ hasSamples: true });
+    return Events.collection.find({ hasSamples: true });
   }
   return this.ready();
 });
 
 // PUBLICATIONS FOR STATUS RELATED PAGES
 // check if civilian and if so, don't publish anything
-Meteor.publish(Debris.unclaimed, function () {
+Meteor.publish(Events.unclaimed, function () {
   if (this.userId) {
-    return Debris.collection.find({ status: 'unclaimed' });
+    return Events.collection.find({ status: 'unclaimed' });
   }
   return this.ready();
 });
 
-Meteor.publish(Debris.claimed, function () {
+Meteor.publish(Events.claimed, function () {
   if (this.userId) {
     if (Roles.userIsInRole(this.userId, 'admin')) {
-      return Debris.collection.find({ status: 'claimed' });
+      return Events.collection.find({ status: 'claimed' });
     }
     const username = Meteor.users.findOne(this.userId).username;
-    return Debris.collection.find({ owner: username, status: 'claimed' });
+    return Events.collection.find({ owner: username, status: 'claimed' });
   }
   return this.ready();
 });
 
-Meteor.publish(Debris.stored, function () {
+Meteor.publish(Events.stored, function () {
   if (this.userId) {
     if (Roles.userIsInRole(this.userId, 'admin')) {
-      return Debris.collection.find({ status: 'stored' });
+      return Events.collection.find({ status: 'stored' });
     }
     const username = Meteor.users.findOne(this.userId).username;
-    return Debris.collection.find({ owner: username, status: 'stored' });
+    return Events.collection.find({ owner: username, status: 'stored' });
   }
   return this.ready();
 });
 
-Meteor.publish(Debris.disposed, function () {
+Meteor.publish(Events.disposed, function () {
   if (this.userId) {
     if (Roles.userIsInRole(this.userId, 'admin')) {
-      return Debris.collection.find({ status: 'disposed' });
+      return Events.collection.find({ status: 'disposed' });
     }
     const username = Meteor.users.findOne(this.userId).username;
-    return Debris.collection.find({ owner: username, status: 'disposed' });
+    return Events.collection.find({ owner: username, status: 'disposed' });
   }
   return this.ready();
 });
