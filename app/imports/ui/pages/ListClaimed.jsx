@@ -110,6 +110,7 @@ const ListClaimed = () => {
           </Col>
           <Table striped bordered hover>
             <thead>
+<<<<<<< HEAD
               <tr>
                 <th>Island</th>
                 <th>City</th>
@@ -122,6 +123,20 @@ const ListClaimed = () => {
             </thead>
             <tbody>
               {debris.map((debris) => <ClaimedItems key={debris._id} debris={debris} />)}
+=======
+            <tr>
+              <th>Island</th>
+              <th>City</th>
+              <th>Type</th>
+              <th>Located</th>
+              <th>Details</th>
+              <th>Release</th>
+              <th>Store</th>
+            </tr>
+            </thead>
+            <tbody>
+            {debris.map((debris) => <ClaimedItems key={debris._id} debris={debris} />)}
+>>>>>>> parent of eaa1ba3 (updated)
             </tbody>
           </Table>
         </Col>

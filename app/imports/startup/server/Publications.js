@@ -1,12 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
+<<<<<<< HEAD
 import { Profiles } from '../../api/profile/Profiles';
+=======
+>>>>>>> parent of eaa1ba3 (updated)
 import { Debris } from '../../api/debris/Debris';
 import { Samples } from '../../api/debris/Sample';
 import { Subsamples } from '../../api/debris/Subsample';
 
 // User-level publication.
 // If logged in, then publish documents owned by this user. Otherwise, publish nothing.
+<<<<<<< HEAD
 Meteor.publish(Profiles.userPublicationName, function () {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
@@ -20,6 +24,11 @@ Meteor.publish(Profiles.userPublicationName, function () {
 Meteor.publish(Debris.userPublicationName, function () {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
+=======
+Meteor.publish(Debris.userPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+>>>>>>> parent of eaa1ba3 (updated)
     return Debris.collection.find({ owner: username });
   }
   return this.ready();
