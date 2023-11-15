@@ -220,7 +220,7 @@ const ReportDebris = () => {
           <AutoForm schema={bridge} onSubmit={submit} ref={fRef}>
             <Card>
               <Card.Body>
-                <SelectField name="type" label="Select Type" onChange={(value) => handleSelectChange1(value)} value={type} />
+                <SelectField name="type" label="I FOUND/LOCATED THE FOLLOWING" onChange={(value) => handleSelectChange1(value)} value={type} />
                 {showTextField1 && (
                   <Form.Group controlId="otherDescription">
                     <Form.Label>Please enter your own description of the type of debris found:</Form.Label>
@@ -238,7 +238,7 @@ const ReportDebris = () => {
                     <Form.Label>If located offshore, enter latitude and longitude (i.e. 21.3161 -157.8906) or provide a position description and any information on currents and winds that could help in relocating the debris.:</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="please explain"
+                      placeholder="Other - Please explain"
                       value={customLocatedDescription}
                       onChange={(value) => handleCustomLocatedChange(value)}
                     />
@@ -253,7 +253,7 @@ const ReportDebris = () => {
                     </Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="please describe"
+                      placeholder="Other - Please describe"
                       value={customDescriptionDescription}
                       onChange={(value) => handleCustomDescriptionChange(value)}
                     />
