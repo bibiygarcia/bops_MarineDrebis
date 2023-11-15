@@ -18,11 +18,9 @@ const Footer = () => (
       <Row>
         <Col>
           <h4>Temporary Links</h4>
-          <a href="/">Civilian Home</a>
+          <a href="/organization/signin">Organization Sign In</a>
           <br />
-          <a href="/org">Organization Home</a>
-          <br />
-          <a href="/map">Debris Map</a>
+          <a href="/organization/signup">Organization Sign Up</a>
         </Col>
         <Col className="text-center">
           Department of Information and Computer Sciences
