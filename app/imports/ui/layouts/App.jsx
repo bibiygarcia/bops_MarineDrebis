@@ -48,6 +48,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
+          <Route path="/report" element={<ReportDebris />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/profile/:_id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/profile/edit/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
@@ -56,7 +57,6 @@ const App = () => {
           <Route path="/stored" element={<ProtectedRoute><ListStored /></ProtectedRoute>} />
           <Route path="/distributed" element={<ProtectedRoute><ListDisposed /></ProtectedRoute>} />
           <Route path="/analysis" element={<AdminProtectedRoute ready={ready}><ListAnalyze /></AdminProtectedRoute>} />
-          <Route path="/report" element={<ProtectedRoute><ReportDebris /></ProtectedRoute>} />
           <Route path="/details/:_id" element={<ProtectedRoute><Details /></ProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
