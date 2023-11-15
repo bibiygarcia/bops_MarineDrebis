@@ -21,7 +21,7 @@ import ListClaimed from '../pages/ListClaimed';
 import ListStored from '../pages/ListStored';
 import ListDisposed from '../pages/ListDisposed';
 import ListAnalyze from '../pages/ListAnalyze';
-import Details from '../pages/Details';
+import Detail from '../pages/Detail';
 import ReportDebris from '../pages/ReportDebris';
 import NotAuthorized from '../pages/NotAuthorized';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/distributed" element={<ProtectedRoute><ListDisposed /></ProtectedRoute>} />
           <Route path="/analysis" element={<AdminProtectedRoute ready={ready}><ListAnalyze /></AdminProtectedRoute>} />
           <Route path="/report" element={<ProtectedRoute><ReportDebris /></ProtectedRoute>} />
-          <Route path="/details/:_id" element={<ProtectedRoute><Details /></ProtectedRoute>} />
+          <Route path="/detail/:_id" element={<ProtectedRoute><Detail /></ProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

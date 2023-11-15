@@ -3,34 +3,34 @@ import PropTypes from 'prop-types';
 import { Button, Card, Col, Collapse, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-import { Subsamples } from '../../api/stuff/Subsample';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Subsamples } from '../../api/debris/Subsample';
+import { Events } from '../../api/debris/Event';
 import LoadingSpinner from './LoadingSpinner';
 
-const AnalysisItems = ({ stuff, samples }) => {
+const AnalysisItems = ({ event, samples }) => {
   const [open, setOpen] = useState(false);
   const [showSubsamples, setShowSubsamples] = useState({});
 
   let relevantSamples;
 
   const { ready, subsamples } = useTracker(() => {
-    const subscriptionEvent = Meteor.subscribe(Stuffs.stored);
+    const subscriptionEvent = Meteor.subscribe(Events.stored);
     const subsamplesSubscription = Meteor.subscribe(Subsamples.analysis);
 
     const rdy = subscriptionEvent.ready() && subsamplesSubscription.ready();
 
-    const analysisItemsEvent = Stuffs.collection.find().fetch();
+    const analysisItemsEvent = Events.collection.find().fetch();
     const analysisItemsSubsamples = Subsamples.collection.find().fetch();
 
     return {
-      stuffs: analysisItemsEvent,
+      events: analysisItemsEvent,
       subsamples: analysisItemsSubsamples,
       ready: rdy,
     };
   }, []);
 
-  if (stuff && stuff.sampleIds) {
-    relevantSamples = samples.filter(sample => stuff.sampleIds.includes(sample._id));
+  if (event && event.sampleIds) {
+    relevantSamples = samples.filter(sample => event.sampleIds.includes(sample._id));
   }
 
   const protocolNames = {
@@ -41,7 +41,7 @@ const AnalysisItems = ({ stuff, samples }) => {
     5: 'Disentanglement',
     6: 'Reverse Engineer',
   };
-  const protocolName = protocolNames[stuff.protocol];
+  const protocolName = protocolNames[event.protocol];
 
   const toggleSubsamples = (sampleId) => {
     setShowSubsamples(prevState => ({
@@ -50,11 +50,11 @@ const AnalysisItems = ({ stuff, samples }) => {
     }));
   };
 
-  const sampleCount = stuff && stuff.sampleIds ? stuff.sampleIds.length : 'error';
+  const sampleCount = event && event.sampleIds ? event.sampleIds.length : 'error';
   return (ready ? (
     <Card className="mb-3">
       <Card.Body>
-        <Card.Title>{stuff.name}</Card.Title>
+        <Card.Title>{event.name}</Card.Title>
         <Row>
           <Col>This event has {sampleCount} sample{sampleCount > 1 ? 's' : ''} so far. Following the <b>{protocolName}</b> protocol.</Col>
         </Row>
@@ -145,7 +145,7 @@ const AnalysisItems = ({ stuff, samples }) => {
 };
 
 AnalysisItems.propTypes = {
-  stuff: PropTypes.shape({
+  event: PropTypes.shape({
     name: PropTypes.string.isRequired,
     protocol: PropTypes.number.isRequired,
     sampleIds: PropTypes.arrayOf(PropTypes.string).isRequired,
