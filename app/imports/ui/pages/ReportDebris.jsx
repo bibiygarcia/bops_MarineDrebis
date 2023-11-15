@@ -33,7 +33,7 @@ const formSchema = new SimpleSchema({
   island: {
     type: String,
     allowedValues: ['Oahu', 'Maui', 'Big Island', 'Kauai', 'Molokai', 'Lanai', 'Kahoolawe', 'Niihau'],
-    defaultValue: '',
+    defaultValue: 'Oahu',
   },
   image: {
     type: String,
