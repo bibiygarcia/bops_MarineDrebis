@@ -31,22 +31,30 @@ const Profile = () => {
   return ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col className="text-center"><h2>My Profile</h2></Col>
-        <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
-          <Card>
-            <Card.Body>
-              <TextField name="firstName" placeholder="First Name" />
-              <TextField name="lastName" placeholder="Last Name" />
-              <TextField name="age" placeholder="Age" />
-              <TextField name="email" placeholder="Email" />
-              <TextField name="password" placeholder="Password" />
-              <LongTextField name="bio" placeholder="About Yourself" />
-              <tbody>
-                {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
-              </tbody>
-            </Card.Body>
-          </Card>
-        </AutoForm>
+        <Col className="text-center" />
+        <Card>
+          <Card.Body>
+            <div className="card-header"><h2>My Profile</h2>
+            </div>
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item">First Name </li>
+              <li className="list-group-item">Last Name</li>
+              <li className="list-group-item">Age</li>
+              <li className="list-group-item">Email Address</li>
+              <li className="list-group-item">About yourself</li>
+            </ul>
+            {/* <TextField name="firstName" placeholder="First Name" /> */}
+            {/* <TextField name="lastName" placeholder="Last Name" /> */}
+            {/* <TextField name="age" placeholder="Age" /> */}
+            {/* <TextField name="email" placeholder="Email" /> */}
+            {/* <TextField name="password" placeholder="Password" /> */}
+            {/* <LongTextField name="bio" placeholder="About Yourself" /> */}
+
+          </Card.Body>
+        </Card>
+        <tbody>
+          {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
+        </tbody>
       </Row>
     </Container>
   ) : <LoadingSpinner />;
