@@ -27,9 +27,17 @@ const EditProfile = () => {
       ready: rdy,
     };
   }, [_id]);
+<<<<<<< Updated upstream
   const submit = (data) => {
     const { firstname, lastname, email, password, bio } = data;
     Stuffs.collection.update(_id, { $set: { firstname, lastname, email, password, bio } }, (error) => (error ?
+=======
+  // console.log('EditStuff', doc, ready);
+  // On successful submit, insert the data.
+  const submit = (profile) => {
+    const { firstname, lastname, age, email, password } = profile;
+    Meteor.users.update(_id, { $set: { firstname, lastname, age, email, password } }, (error) => (error ?
+>>>>>>> Stashed changes
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   };
@@ -40,11 +48,19 @@ const EditProfile = () => {
         <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
           <Card>
             <Card.Body>
+<<<<<<< Updated upstream
               <TextField name="firstname" placeholder="First Name" />
               <TextField name="lastname" placeholder="Last Name" />
               <TextField name="email" placeholder="Email Address" />
               <TextField name="password" placeholder="Password" />
               <LongTextField name="bio" placeholder="Tell Us About Yourself" />
+=======
+              <TextField name="firstName" placeholder="Change First Name" />
+              <TextField name="lastName" placeholder="Change Last Name" />
+              <TextField name="age" placeholder="Change Age" />
+              <TextField name="email" placeholder="Change Email" />
+              <TextField name="password" placeholder="Change Password" />
+>>>>>>> Stashed changes
               <SubmitField value="Submit" />
               <ErrorsField />
               <HiddenField name="owner" />
