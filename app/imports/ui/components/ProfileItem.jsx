@@ -8,6 +8,7 @@ const ProfileItem = ({ profile }) => (
     <td>{profile.firstName}</td>
     <td>{profile.lastName}</td>
     <td>{profile.age}</td>
+    <td>{profile.email}</td>
     <td>
       <Link to={`/profile/edit/${profile._id}`}>Edit</Link>
     </td>
@@ -20,6 +21,7 @@ ProfileItem.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     age: PropTypes.string,
+    email: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
 };
