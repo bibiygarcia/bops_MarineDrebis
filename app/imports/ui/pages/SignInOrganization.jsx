@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -10,11 +11,11 @@ import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstra
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
  * Authentication errors modify the component’s state to be displayed
  */
-const SignIn = () => {
+const SignInOrganization = () => {
   const [error, setError] = useState('');
   const [redirect, setRedirect] = useState(false);
   const schema = new SimpleSchema({
-    email: String,
+    username: String,
     password: String,
   });
   const bridge = new SimpleSchema2Bridge(schema);
@@ -22,10 +23,14 @@ const SignIn = () => {
   // Handle Signin submission using Meteor's account mechanism.
   const submit = (doc) => {
     // console.log('submit', doc, redirect);
-    const { email, password } = doc;
-    Meteor.loginWithPassword(email, password, (err) => {
+    const { username, password } = doc;
+    Meteor.loginWithPassword(username, password, (err) => {
       if (err) {
         setError(err.reason);
+      } else if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+        setRedirect('admin');
+      } else if (Roles.userIsInRole(Meteor.userId(), 'org')) {
+        setRedirect('org');
       } else {
         setRedirect(true);
       }
@@ -36,7 +41,9 @@ const SignIn = () => {
   // Render the signin form.
   // console.log('render', error, redirect);
   // if correct authentication, redirect to page instead of login screen
-  if (redirect) {
+  if (redirect === 'admin' || redirect === 'org') {
+    return (<Navigate to="/organization/landing" />);
+  } if (redirect) {
     return (<Navigate to="/landing" />);
   }
   // Otherwise return the Login form.
@@ -45,21 +52,18 @@ const SignIn = () => {
       <Row className="justify-content-center">
         <Col xs={5}>
           <Col className="text-center">
-            <h2>Login to your account</h2>
+            <h2>Organization Sign In</h2>
           </Col>
           <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card>
               <Card.Body>
-                <TextField id="signin-form-email" name="email" placeholder="E-mail address" />
+                <TextField id="signin-form-username" name="username" placeholder="Username" />
                 <TextField id="signin-form-password" name="password" placeholder="Password" type="password" />
                 <ErrorsField />
                 <SubmitField id="signin-form-submit" />
               </Card.Body>
             </Card>
           </AutoForm>
-          <Alert variant="light">
-            <Link to="/signup">Click here to Register</Link>
-          </Alert>
           {error === '' ? (
             ''
           ) : (
@@ -74,4 +78,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInOrganization;

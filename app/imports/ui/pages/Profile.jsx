@@ -1,25 +1,29 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Stuffs } from '../../api/stuff/Stuff';
-import StuffItem from '../components/StuffItem';
+import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Profiles } from '../../api/profile/Profiles';
+import ProfileItem from '../components/ProfileItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-/* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
-const ListStuff = () => {
+/*
+Consider looking at this for account stuff: https://docs.meteor.com/api/accounts.html#Meteor-users
+ */
+
+const Profile = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { ready, stuffs } = useTracker(() => {
+  // eslint-disable-next-line no-unused-vars
+  const { ready, profiles } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
     // Get access to Stuff documents.
-    const subscription = Meteor.subscribe(Stuffs.userPublicationName);
+    const subscription = Meteor.subscribe(Profiles.userPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the Stuff documents
-    const stuffItems = Stuffs.collection.find({}).fetch();
+    const profileItems = Profiles.collection.find({}).fetch();
     return {
-      stuffs: stuffItems,
+      profiles: profileItems,
       ready: rdy,
     };
   }, []);
@@ -30,21 +34,21 @@ const ListStuff = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col>
           <Col className="text-center">
-            <h2>List Stuff</h2>
+            <h2>My Profile</h2>
           </Col>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Condition</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
                 <th>Edit</th>
               </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <StuffItem key={stuff._id} stuff={stuff} />)}
+              {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
             </tbody>
           </Table>
         </Col>
@@ -53,4 +57,4 @@ const ListStuff = () => {
   ) : <LoadingSpinner />);
 };
 
-export default ListStuff;
+export default Profile;

@@ -3,24 +3,24 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Col, Container, Row, Table, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Debris } from '../../api/debris/Debris';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const ReportedItems = ({ stuff }) => {
+const ReportedItems = ({ debris }) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   const handleDetailsClick = () => {
-    navigate(`/details/${stuff._id}`);
+    navigate(`/details/${debris._id}`);
   };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleClaim = () => {
-    Meteor.call('stuffs.claim', stuff._id, Meteor.user().username, (error) => {
+    Meteor.call('debris.claim', debris._id, Meteor.user().username, (error) => {
       if (error) {
-        console.log(`Claiming ${stuff._id} failed`);
+        console.log(`Claiming ${debris._id} failed`);
       } else {
         handleClose();
       }
@@ -30,14 +30,14 @@ const ReportedItems = ({ stuff }) => {
   return (
     <>
       <tr>
-        <td>{stuff.island}</td>
-        <td>{stuff.city}</td>
-        <td>{stuff.type}</td>
-        <td>{stuff.customTypeDescription}</td>
-        <td>{stuff.located}</td>
-        <td>{stuff.customLocatedDescription}</td>
-        <td>{stuff.describe}</td>
-        <td>{stuff.customDescriptionDescription}</td>
+        <td>{debris.island}</td>
+        <td>{debris.city}</td>
+        <td>{debris.type}</td>
+        <td>{debris.customTypeDescription}</td>
+        <td>{debris.located}</td>
+        <td>{debris.customLocatedDescription}</td>
+        <td>{debris.describe}</td>
+        <td>{debris.customDescriptionDescription}</td>
         <td><Button onClick={handleDetailsClick}>Details</Button></td>
         <td><Button onClick={handleShow}>Claim</Button></td>
       </tr>
@@ -60,15 +60,15 @@ const ReportedItems = ({ stuff }) => {
     </>
   );
 };
-/* Renders a table containing all of the Stuff documents. Use <ReportedItems> to render each row. */
+/* Renders a table containing all of the debris documents. Use <ReportedItems> to render each row. */
 const ListReported = () => {
-  const { ready, stuffs } = useTracker(() => {
-    const subscription = Meteor.subscribe(Stuffs.unclaimed);
+  const { ready, debris } = useTracker(() => {
+    const subscription = Meteor.subscribe(Debris.unclaimed);
     const rdy = subscription.ready();
-    const reportedItems = Stuffs.collection.find().fetch();
+    const reportedItems = Debris.collection.find().fetch();
 
     return {
-      stuffs: reportedItems,
+      debris: reportedItems,
       ready: rdy,
     };
   }, []);
@@ -83,21 +83,21 @@ const ListReported = () => {
           </Col>
           <Table striped bordered hover>
             <thead>
-              <tr>
-                <th>Island</th>
-                <th>City</th>
-                <th>Type</th>
-                <th>Type: Other</th>
-                <th>Located</th>
-                <th>Located: Other</th>
-                <th>Describe</th>
-                <th>Describe: Other</th>
-                <th>Details</th>
-                <th>Claim</th>
-              </tr>
+            <tr>
+              <th>Island</th>
+              <th>City</th>
+              <th>Type</th>
+              <th>Type: Other</th>
+              <th>Located</th>
+              <th>Located: Other</th>
+              <th>Describe</th>
+              <th>Describe: Other</th>
+              <th>Details</th>
+              <th>Claim</th>
+            </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <ReportedItems key={stuff._id} stuff={stuff} />)}
+            {debris.map((debris) => <ReportedItems key={debris._id} debris={debris} />)}
             </tbody>
           </Table>
         </Col>

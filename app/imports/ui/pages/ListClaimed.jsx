@@ -3,17 +3,17 @@ import { Meteor } from 'meteor/meteor';
 import { Col, Container, Row, Table, Button, Modal } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useNavigate } from 'react-router-dom';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Debris } from '../../api/debris/Debris';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const ClaimedItems = ({ stuff }) => {
+const ClaimedItems = ({ debris }) => {
   const navigate = useNavigate();
   const [showRelease, setShowRelease] = useState(false);
   const [showStore, setShowStore] = useState(false);
 
   // Action for "Details" button
   const handleDetailsClick = () => {
-    navigate(`/details/${stuff._id}`);
+    navigate(`/details/${debris._id}`);
   };
 
   // Action for "Release" button
@@ -24,9 +24,9 @@ const ClaimedItems = ({ stuff }) => {
   const handleShowStore = () => setShowStore(true);
 
   const handleRelease = () => {
-    Meteor.call('stuffs.release', stuff._id, (error) => {
+    Meteor.call('debris.release', debris._id, (error) => {
       if (error) {
-        console.log(`Releasing ${stuff._id} failed`);
+        console.log(`Releasing ${debris._id} failed`);
       } else {
         handleCloseRelease();
       }
@@ -34,9 +34,9 @@ const ClaimedItems = ({ stuff }) => {
   };
 
   const handleStore = () => {
-    Meteor.call('stuffs.store', stuff._id, (error) => {
+    Meteor.call('debris.store', debris._id, (error) => {
       if (error) {
-        console.log(`Moving ${stuff._id} to storage failed`);
+        console.log(`Moving ${debris._id} to storage failed`);
       } else {
         handleCloseStore();
       }
@@ -46,10 +46,10 @@ const ClaimedItems = ({ stuff }) => {
   return (
     <>
       <tr>
-        <td>{stuff.island}</td>
-        <td>{stuff.city}</td>
-        <td>{stuff.type}</td>
-        <td>{stuff.located}</td>
+        <td>{debris.island}</td>
+        <td>{debris.city}</td>
+        <td>{debris.type}</td>
+        <td>{debris.located}</td>
         <td><Button onClick={handleDetailsClick}>Details</Button></td>
         <td><Button onClick={handleShowRelease}>Release</Button></td>
         <td><Button onClick={handleShowStore}>Store</Button></td>
@@ -88,14 +88,14 @@ const ClaimedItems = ({ stuff }) => {
   );
 };
 
-/* Renders a table containing all of the Stuff documents. Use <ClaimedItems> to render each row. */
+/* Renders a table containing all of the debris documents. Use <ClaimedItems> to render each row. */
 const ListClaimed = () => {
-  const { ready, stuffs } = useTracker(() => {
-    const subscription = Meteor.subscribe(Stuffs.claimed);
+  const { ready, debris } = useTracker(() => {
+    const subscription = Meteor.subscribe(debris.claimed);
     const rdy = subscription.ready();
-    const claimedItems = Stuffs.collection.find().fetch();
+    const claimedItems = Debris.collection.find().fetch();
     return {
-      stuffs: claimedItems,
+      debris: claimedItems,
       ready: rdy,
     };
   }, []);
@@ -121,7 +121,7 @@ const ListClaimed = () => {
               </tr>
             </thead>
             <tbody>
-              {stuffs.map((stuff) => <ClaimedItems key={stuff._id} stuff={stuff} />)}
+              {debris.map((debris) => <ClaimedItems key={debris._id} debris={debris} />)}
             </tbody>
           </Table>
         </Col>

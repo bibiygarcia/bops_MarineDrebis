@@ -5,7 +5,7 @@ import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Debris } from '../../api/debris/Debris';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -33,7 +33,7 @@ const formSchema = new SimpleSchema({
   island: {
     type: String,
     allowedValues: ['Oahu', 'Maui', 'Big Island', 'Kauai', 'Molokai', 'Lanai', 'Kahoolawe', 'Niihau'],
-    defaultValue: '',
+    defaultValue: 'Oahu',
   },
   image: {
     type: String,
@@ -85,7 +85,7 @@ const ReportDebris = () => {
     let proposedID = 'FFFFFFFFF';
     do {
       proposedID = [...Array(9)].map(() => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
-      isUnique = Stuffs.collection.countDocuments({ DFG_ID: proposedID });
+      isUnique = Debris.collection.countDocuments({ DFG_ID: proposedID });
     } while (!isUnique);
 
     DFG_ID += proposedID; // id_main 9 characters
@@ -97,7 +97,7 @@ const ReportDebris = () => {
     DFG_ID += '000'; // id_part_5
     DFG_ID += '000'; // id_part_6
 
-    const owner = Meteor.user().username;
+    const owner = Meteor.user() ? Meteor.user().username : 'anonymous';
 
     if (imageFile) {
       const reader = new FileReader();
@@ -114,7 +114,7 @@ const ReportDebris = () => {
             // eslint-disable-next-line no-param-reassign
             data.image = response;
 
-            Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription, customDescriptionDescription }, () => {
+            Debris.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription, customDescriptionDescription }, () => {
               if (error) {
                 swal('Error', error.message, 'error');
               } else {
@@ -128,7 +128,7 @@ const ReportDebris = () => {
       };
       reader.readAsDataURL(imageFile);
     } else {
-      Stuffs.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription, customDescriptionDescription }, (error) => {
+      Debris.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription, customDescriptionDescription }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
@@ -137,7 +137,7 @@ const ReportDebris = () => {
         }
       });
     }
-    Stuffs.collection.update({ _id: stuff._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription, customDescriptionDescription } });
+    Debris.collection.update({ _id: debris._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription, customDescriptionDescription } });
     swal('Success', 'Item updated successfully', 'success');
     swal('Error', error.message, 'error');
     fRef.current.reset();
@@ -220,7 +220,7 @@ const ReportDebris = () => {
           <AutoForm schema={bridge} onSubmit={submit} ref={fRef}>
             <Card>
               <Card.Body>
-                <SelectField name="type" label="Select Type" onChange={(value) => handleSelectChange1(value)} value={type} />
+                <SelectField name="type" label="I FOUND/LOCATED THE FOLLOWING" onChange={(value) => handleSelectChange1(value)} value={type} />
                 {showTextField1 && (
                   <Form.Group controlId="otherDescription">
                     <Form.Label>Please enter your own description of the type of debris found:</Form.Label>
@@ -238,7 +238,7 @@ const ReportDebris = () => {
                     <Form.Label>If located offshore, enter latitude and longitude (i.e. 21.3161 -157.8906) or provide a position description and any information on currents and winds that could help in relocating the debris.:</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="please explain"
+                      placeholder="Other - Please explain"
                       value={customLocatedDescription}
                       onChange={(value) => handleCustomLocatedChange(value)}
                     />
@@ -253,7 +253,7 @@ const ReportDebris = () => {
                     </Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="please describe"
+                      placeholder="Other - Please describe"
                       value={customDescriptionDescription}
                       onChange={(value) => handleCustomDescriptionChange(value)}
                     />

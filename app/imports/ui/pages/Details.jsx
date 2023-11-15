@@ -6,10 +6,10 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
-import { Stuffs } from '../../api/stuff/Stuff';
+import { Debris } from '../../api/debris/Debris';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const bridge = new SimpleSchema2Bridge(Stuffs.schema);
+const bridge = new SimpleSchema2Bridge(Debris.schema);
 
 /* Renders the Details page for displaying a single document. Options to split, view photos, add comments */
 const Details = () => {
@@ -19,11 +19,11 @@ const Details = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { doc, ready } = useTracker(() => {
     // Get access to Stuff documents.
-    const subscription = Meteor.subscribe(Stuffs.userPublicationName);
+    const subscription = Meteor.subscribe(Debris.userPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the document
-    const document = Stuffs.collection.findOne(_id);
+    const document = Debris.collection.findOne(_id);
     return {
       doc: document,
       ready: rdy,
@@ -33,7 +33,7 @@ const Details = () => {
   // On successful submit, insert the data.
   const submit = (data) => {
     const { name, quantity, condition } = data;
-    Stuffs.collection.update(_id, { $set: { name, quantity, condition } }, (error) => (error ?
+    Debris.collection.update(_id, { $set: { name, quantity, condition } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   };
