@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Card, Col, Container, Row, Form } from 'react-bootstrap';
+import { Card, Col, Container, Row, Form, Button, Spinner } from 'react-bootstrap';
 import { AutoForm, ErrorsField, SelectField, SubmitField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
@@ -8,6 +8,7 @@ import SimpleSchema from 'simpl-schema';
 import { Events } from '../../api/debris/Event';
 
 // Create a schema to specify the structure of the data to appear in the form.
+/* eslint-disable no-console */
 const formSchema = new SimpleSchema({
   type: {
     type: String,
@@ -55,20 +56,47 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
+const isMobileDevice = () => {
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    return true;
+  }
+  if (typeof window.orientation !== 'undefined') {
+    return window.orientation !== undefined;
+  }
+  return navigator.userAgent.indexOf('IEMobile') !== -1;
+};
 const ReportDebris = () => {
   const [imageFile, setImageFile] = useState(null); // State hook for the image file
   const fRef = useRef(null); // This reference is used to reset the form
+  const fileInputRef = React.useRef();
+  const [fileName, setFileName] = useState('');
   const [showTextField1, setShowTextField1] = useState(false);
   const [showTextField2, setShowTextField2] = useState(false);
   const [showTextField3, setShowTextField3] = useState(false);
   const [customTypeDescription, setCustomTypeDescription] = useState('');
   const [customLocatedDescription, setCustomLocatedDescription] = useState('');
   const [customDescriptionDescription, setCustomDescriptionDescription] = useState('');
-  const [type, setType] = useState('');
-  const [located, setLocated] = useState('');
-  const [describe, setDescribe] = useState('');
+  const [type, setType] = useState(bridge.getInitialValue('type'));
+  const [located, setLocated] = useState(bridge.getInitialValue('located'));
+  const [describe, setDescribe] = useState(bridge.getInitialValue('describe'));
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const resetForm = () => {
+    fRef.current.reset();
+    setImageFile(null); // Reset the imageFile state
+    setFileName(''); // Reset filename state
+    setCustomTypeDescription(''); // Reset the state
+    setCustomLocatedDescription(''); // Reset the state
+    setCustomDescriptionDescription(''); // Reset the state
+    setType('');
+    setLocated('');
+    setDescribe('');
+    setShowTextField1(false);
+    setShowTextField2(false);
+    setShowTextField3(false);
+  };
   const submit = (data) => {
+    if (isSubmitting) return;
     console.log('Type', type);
     const { island, image } = data;
     let DFG_ID = 'DFG';
@@ -100,6 +128,7 @@ const ReportDebris = () => {
     const owner = Meteor.user() ? Meteor.user().username : 'anonymous';
 
     if (imageFile) {
+      setIsSubmitting(true);
       const reader = new FileReader();
       reader.onloadend = () => {
         const fileContent = reader.result.split(',')[1];
@@ -107,6 +136,7 @@ const ReportDebris = () => {
         Meteor.call('uploadFile', fileContent, imageFile.name, imageFile.type, (error, response) => {
           if (error) {
             console.error('Error during image upload', error);
+            setIsSubmitting(false);
           } else {
             console.log('Image uploaded successfully at', response);
 
@@ -116,36 +146,39 @@ const ReportDebris = () => {
 
             Events.collection.insert({ type, located, describe, island, owner, DFG_ID, image: response, customTypeDescription, customLocatedDescription, customDescriptionDescription }, () => {
               if (error) {
-                swal('Error', error.message, 'error');
+                swal('Error', error.message, 'error').finally(() => {});
               } else {
-                swal('Success', 'Item added successfully', 'success');
+                swal('Success', 'Item added successfully', 'success').finally(() => {});
                 setImageFile(null); // Reset the imageFile state
-                fRef.current.reset();
               }
+              setIsSubmitting(false);
             });
           }
+          resetForm();
         });
       };
       reader.readAsDataURL(imageFile);
     } else {
       Events.collection.insert({ type, located, describe, island, owner, DFG_ID, image, customTypeDescription, customLocatedDescription, customDescriptionDescription }, (error) => {
         if (error) {
-          swal('Error', error.message, 'error');
+          swal('Error', error.message, 'error').finally(() => {});
         } else {
-          swal('Success', 'Item added successfully', 'success');
+          swal('Success', 'Item added successfully', 'success').finally(() => {});
           fRef.current.reset();
         }
       });
+      resetForm();
     }
-    // eslint-disable-next-line no-restricted-globals
-    Events.collection.update({ _id: event._id }, { $set: { type, located, describe, island, image, customTypeDescription, customLocatedDescription, customDescriptionDescription } });
-    swal('Success', 'Item updated successfully', 'success');
-    swal('Error', error.message, 'error');
-    fRef.current.reset();
   };
 
   const handleCapture = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+    setFileName(file.name);
+  };
+
+  const handleClick = () => {
+    fileInputRef.current.click();
   };
 
   const handleCustomTypeDescriptionChange = (event) => {
@@ -208,7 +241,13 @@ const ReportDebris = () => {
     }
   };
 
-  // Render the form. Use Uniforms: https://github.com/vazco/uniforms
+  let buttonText;
+  if (fileName) {
+    buttonText = `Change Image (Selected: ${fileName})`;
+  } else {
+    buttonText = isMobileDevice() ? 'Take Photo' : 'Upload Image';
+  }
+
   return (
     <Container className="py-3">
       <Row className="justify-content-center">
@@ -262,8 +301,40 @@ const ReportDebris = () => {
                 )}
 
                 <SelectField name="island" label="If on land or in the nearshore waters - indicate which island" />
-                <input type="file" accept="image/*" capture="camera" onChange={handleCapture} />
-                <SubmitField value="Submit" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="camera"
+                  onChange={handleCapture}
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                />
+                <Button
+                  variant={fileName ? 'outline-secondary' : 'secondary'}
+                  onClick={handleClick}
+                >
+                  {buttonText}
+                </Button>
+                <SubmitField style={{ display: 'none' }} />
+                <div style={{ paddingTop: 10 }}>
+                  <Button type="submit" variant="primary" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                      &nbsp;Uploading...
+                      </>
+                    ) : (
+                      'Submit'
+                    )}
+                  </Button>
+                </div>
+
                 <ErrorsField />
               </Card.Body>
             </Card>
