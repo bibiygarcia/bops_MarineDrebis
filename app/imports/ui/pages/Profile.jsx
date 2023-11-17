@@ -1,8 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Col, Container, Row, Card } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import { Profiles } from '../../api/profile/Profiles';
 import ProfileItem from '../components/ProfileItem';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -30,24 +29,7 @@ const Profile = () => {
   }, []);
   return ready ? (
     <Container className="py-3">
-      <Row className="justify-content-center">
-        <Col className="text-center"><h2>My Profile</h2></Col>
-        <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
-          <Card>
-            <Card.Body>
-              <TextField name="firstName" placeholder="First Name" />
-              <TextField name="lastName" placeholder="Last Name" />
-              <TextField name="age" placeholder="Age" />
-              <TextField name="email" placeholder="Email" />
-              <TextField name="password" placeholder="Password" />
-              <LongTextField name="bio" placeholder="About Yourself" />
-              <tbody>
-                {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
-              </tbody>
-            </Card.Body>
-          </Card>
-        </AutoForm>
-      </Row>
+      {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
     </Container>
   ) : <LoadingSpinner />;
 };
