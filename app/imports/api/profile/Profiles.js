@@ -16,9 +16,6 @@ class ProfilesCollection {
       firstName: String,
       lastName: String,
       age: String,
-      email: String,
-      password: String,
-      bio: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

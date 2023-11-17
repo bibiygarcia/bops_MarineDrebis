@@ -10,6 +10,6 @@
   ],
 
   "defaultProfile" : [
-    { "username": "john", "firstName": "Johnny", "lastName": "Bravo", "age": "30", "email": "john@foo.com", "password": "changeme", "bio": "Nodding my head like yea, Moving my hips like yea"}
+    { "username": "john", "firstName": "Johnny", "lastName": "Bravo", "age": "30" }
   ]
 }

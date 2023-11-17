@@ -1,8 +1,12 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
+<<<<<<< HEAD
 import { Col, Container, Row } from 'react-bootstrap';
 // import { NavLink } from 'react-router-dom';
+=======
+import { Col, Container, Row, Table } from 'react-bootstrap';
+>>>>>>> parent of d089b4b (....)
 import { Profiles } from '../../api/profile/Profiles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileItem from '../components/ProfileItem';
@@ -28,9 +32,10 @@ const Profile = () => {
       ready: rdy,
     };
   }, []);
-  return ready ? (
+  return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
+<<<<<<< HEAD
         <Col className="text-center" />
         <h2> My Profile</h2>
         <table className="table table-sm">
@@ -83,9 +88,29 @@ const Profile = () => {
 
         {/*  </Card.Body> */}
         {/* </Card> */}
+=======
+        <Col>
+          <Col className="text-center">
+            <h2>My Profile</h2>
+          </Col>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
+            </tbody>
+          </Table>
+        </Col>
+>>>>>>> parent of d089b4b (....)
       </Row>
     </Container>
-  ) : <LoadingSpinner />;
+  ) : <LoadingSpinner />);
 };
 
 export default Profile;

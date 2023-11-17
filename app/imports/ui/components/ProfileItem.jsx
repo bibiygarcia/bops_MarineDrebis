@@ -5,6 +5,7 @@ import { Col, Container } from 'react-bootstrap';
 
 /** Renders a single row in the List Stuff table. See pages/ListStuff.jsx. */
 const ProfileItem = ({ profile }) => (
+<<<<<<< HEAD
   <Container className="py-3">
     <Col className="justify-content-end">
       <thead>
@@ -24,6 +25,16 @@ const ProfileItem = ({ profile }) => (
       </thead>
     </Col>
   </Container>
+=======
+  <tr>
+    <td>{profile.firstName}</td>
+    <td>{profile.lastName}</td>
+    <td>{profile.age}</td>
+    <td>
+      <Link to={`/profile/edit/${profile._id}`}>Edit</Link>
+    </td>
+  </tr>
+>>>>>>> parent of d089b4b (....)
 );
 
 // Require a document to be passed to this component.
@@ -32,7 +43,6 @@ ProfileItem.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     age: PropTypes.string,
-    email: PropTypes.string,
     _id: PropTypes.string,
     password: PropTypes.string,
     bio: PropTypes.string,
