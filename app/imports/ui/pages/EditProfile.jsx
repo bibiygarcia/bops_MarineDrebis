@@ -1,7 +1,7 @@
 import React from 'react';
 import swal from 'sweetalert';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, HiddenField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, HiddenField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -31,8 +31,8 @@ const EditProfile = () => {
   // console.log('EditStuff', doc, ready);
   // On successful submit, insert the data.
   const submit = (profile) => {
-    const { firstname, lastname, age } = profile;
-    Meteor.users.update(_id, { $set: { firstname, lastname, age } }, (error) => (error ?
+    const { firstname, lastname, age, email, password, bio } = profile;
+    Meteor.users.update(_id, { $set: { firstname, lastname, age, email, password, bio } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   };
@@ -43,9 +43,12 @@ const EditProfile = () => {
         <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
           <Card>
             <Card.Body>
-              <TextField name="firstName" placeholder="First Name" />
-              <TextField name="lastName" placeholder="Last Name" />
-              <TextField name="age" placeholder="Age" />
+              <TextField name="firstName" placeholder="Change First Name" />
+              <TextField name="lastName" placeholder="Change Last Name" />
+              <TextField name="age" placeholder="Change Age" />
+              <TextField name="email" placeholder="Change Email" />
+              <TextField name="password" placeholder="Change Password" />
+              <LongTextField name="bio" placeholder="Tell Us About Yourself" />
               <SubmitField value="Submit" />
               <ErrorsField />
               <HiddenField name="username" />
