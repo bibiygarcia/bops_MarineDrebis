@@ -42,9 +42,9 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Landing />} />
           <Route exact path="/landing" element={<Landing />} />
-          <Route exact path="/organization/landing" element={<LandingOrganization />} />
-          <Route path="/organization/signin" element={<SignInOrganization />} />
-          <Route path="/organization/signup" element={<SignUpOrganization />} />
+          <Route exact path="/organization-landing" element={<LandingOrganization />} />
+          <Route path="/organization-signin" element={<SignInOrganization />} />
+          <Route path="/organization-signup" element={<SignUpOrganization />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />

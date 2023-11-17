@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import HomeClosingBanner from '../components/HomeClosingBanner';
 import OtherSubmit from '../components/OtherSubmit';
 
 const DebrisMap = () => (
@@ -18,7 +17,6 @@ const DebrisMap = () => (
         <a href="https://mapline.com" target="_blank" rel="noreferrer">Mapping by Mapline</a>
       </div>
     </Container>
-    <HomeClosingBanner />
   </div>
 );
 
