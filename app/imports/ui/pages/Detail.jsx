@@ -140,7 +140,7 @@ const Detail = () => {
                 </Button>
                 <DetailAddPartModal isModalOpen={showModal} closeModal={() => setShowModal(false)} handlePartAdd={handlePartAdd} restWeight={restWeight} />
 
-                <SubmitField value="Save Changes" />
+                <SubmitField style={{ marginTop: 10 }} value="Save Changes" />
                 <ErrorsField />
                 <HiddenField name="owner" />
 
