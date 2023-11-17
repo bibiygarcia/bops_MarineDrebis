@@ -1,7 +1,7 @@
 import React from 'react';
 import swal from 'sweetalert';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, HiddenField, LongTextField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -30,9 +30,9 @@ const EditProfile = () => {
   }, [_id]);
   // console.log('EditStuff', doc, ready);
   // On successful submit, insert the data.
-  const submit = (data) => {
-    const { username, firstName, lastName, age, email, password, bio } = data;
-    Profiles.collection.update(_id, { $set: { username, firstName, lastName, age, email, password, bio } }, (error) => (error ?
+  const submit = (profile) => {
+    const { firstName, lastName, age, email, password, bio } = profile;
+    Profiles.collection.update(_id, { $set: { firstName, lastName, age, email, password, bio } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Profile updated successfully', 'success')));
   };
@@ -40,18 +40,18 @@ const EditProfile = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col className="text-center"><h2>Edit Profile</h2></Col>
-        <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
+        <AutoForm schema={bridge} onSubmit={profile => submit(profile)} model={doc}>
           <Card>
             <Card.Body>
-              <TextField name="username" />
-              <TextField name="firstName" />
-              <TextField name="lastName" />
-              <TextField name="age" />
-              <TextField name="email" />
-              <TextField name="password" />
-              <LongTextField name="bio" />
+              <TextField name="firstName" placeholder="First Name" />
+              <TextField name="lastName" placeholder="Last Name" />
+              <TextField name="age" placeholder="Age" />
+              <TextField name="email" placeholder="Email" />
+              <TextField name="password" placeholder="Password" />
+              <LongTextField name="bio" placeholder="Bio" />
               <SubmitField value="Submit" />
               <ErrorsField />
+              <HiddenField name="username" />
             </Card.Body>
           </Card>
         </AutoForm>

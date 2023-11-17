@@ -12,10 +12,6 @@ const ProfileItem = ({ profile }) => (
       <table className="table table-sm">
         <tbody>
           <tr>
-            <th>Username:</th>
-            <td>{profile.username}</td>
-          </tr>
-          <tr>
             <th>First Name:</th>
             <td>{profile.firstName}</td>
           </tr>
@@ -48,7 +44,6 @@ const ProfileItem = ({ profile }) => (
 // Require a document to be passed to this component.
 ProfileItem.propTypes = {
   profile: PropTypes.shape({
-    username: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     age: PropTypes.string,
