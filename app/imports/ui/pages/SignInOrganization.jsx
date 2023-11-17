@@ -42,7 +42,7 @@ const SignInOrganization = () => {
   // console.log('render', error, redirect);
   // if correct authentication, redirect to page instead of login screen
   if (redirect === 'admin' || redirect === 'org') {
-    return (<Navigate to="/organization/landing" />);
+    return (<Navigate to="/organization-landing" />);
   } if (redirect) {
     return (<Navigate to="/landing" />);
   }
