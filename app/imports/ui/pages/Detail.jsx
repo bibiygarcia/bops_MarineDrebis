@@ -22,12 +22,12 @@ const Detail = () => {
   const parts = url.split('/');
   const _id = parts[parts.length - 1];
   const { doc, ready } = useTracker(() => {
-    const subscription = Meteor.subscribe(Events.adminPublicationName);
+    const subscription = Meteor.subscribe(Events.userPublicationName);
     const rdy = subscription.ready();
     const document = Events.collection.findOne(_id);
     return {
       doc: document,
-      ready: rdy,
+      ready: rdy && document,
     };
   }, [_id]);
 
