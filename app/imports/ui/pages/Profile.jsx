@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Profiles } from '../../api/profile/Profiles';
 import ProfileItem from '../components/ProfileItem';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -27,30 +27,11 @@ const Profile = () => {
       ready: rdy,
     };
   }, []);
-  return (ready ? (
+  return ready ? (
     <Container className="py-3">
-      <Row className="justify-content-center">
-        <Col>
-          <Col className="text-center">
-            <h2>My Profile</h2>
-          </Col>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Age</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
+      {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
     </Container>
-  ) : <LoadingSpinner />);
+  ) : <LoadingSpinner />;
 };
 
 export default Profile;
