@@ -16,7 +16,7 @@ const Profile = () => {
   const { ready, profiles } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
-    // Get access to Stuff documents.
+    // Get access to Profile documents.
     const subscription = Meteor.subscribe(Profiles.userPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();

@@ -1,11 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Events } from '../../api/debris/Event.js';
+import { Profiles } from '../../api/profile/Profiles';
 import { Samples } from '../../api/debris/Sample.js';
 import { Subsamples } from '../../api/debris/Subsample.js';
 import { Components } from '../../api/debris/Component.js';
 
 /* eslint-disable no-console */
+const addProfile = (profile) => {
+  console.log(` Adding: ${profile.username})`);
+  Profiles.collection.insert(profile);
+};
+
+if (Profiles.collection.find().count() === 0) {
+  if (Meteor.settings.defaultProfile) {
+    console.log('Creating default profile.');
+    Meteor.settings.defaultProfile.forEach(profile => addProfile(profile));
+  }
+}
 
 // Initialize the database with a default data document.
 const addData = (data) => {
