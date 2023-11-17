@@ -8,7 +8,7 @@ import { Components } from '../../api/debris/Component.js';
 
 /* eslint-disable no-console */
 const addProfile = (profile) => {
-  console.log(` Adding: ${profile.username})`);
+  console.log(` Adding: (${profile.username})`);
   Profiles.collection.insert(profile);
 };
 
