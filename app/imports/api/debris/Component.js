@@ -12,7 +12,6 @@ class ComponentsCollection {
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
-<<<<<<<< HEAD:app/imports/api/stuff/Stuff.js
       name: {
         type: String,
         optional: true,
@@ -92,7 +91,6 @@ class ComponentsCollection {
         type: String,
         optional: true,
       },
-========
       name: String,
       owner: String,
 
@@ -102,7 +100,6 @@ class ComponentsCollection {
       component_id: String,
 
       plastic_type: String,
->>>>>>>> main:app/imports/api/debris/Component.js
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

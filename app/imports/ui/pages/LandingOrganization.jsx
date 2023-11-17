@@ -1,12 +1,15 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import UnderConstruction from '../components/UnderConstruction';
-import DebrisMap from './DebrisMap';
+import HomeClosingBanner from '../components/HomeClosingBanner';
+import DebrisMap from '../components/DebrisMap';
 
 const LandingOrganization = () => (
-  <div className="d-flex flex-column min-vh-100">
+  <Container className="p-1 d-grid">
     <DebrisMap />
     <UnderConstruction />
-  </div>
+    <HomeClosingBanner />
+  </Container>
 );
 
 export default LandingOrganization;
