@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { Accounts } from 'meteor/accounts-base';
+import { Roles } from 'meteor/alanning:roles';
 import PropTypes from 'prop-types';
 import { Link, Navigate } from 'react-router-dom';
-import { Accounts } from 'meteor/accounts-base';
 import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { Profiles } from '../../api/profile/Profiles';
 
 /**
  * SignUp component is similar to signin component, but we create a new user instead.
@@ -31,6 +33,15 @@ const SignUpOrganization = ({ location }) => {
       } else {
         setError('');
         setRedirectToRef(true);
+
+        const image = '/images/noTextLogoPNG.png';
+        const firstName = 'Team';
+        const lastName = 'BOPS';
+        const age = '2023';
+        const bio = 'We are bops.';
+        const owner = username;
+
+        Profiles.collection.insert({ image, firstName, lastName, age, bio, owner });
       }
     });
   };
