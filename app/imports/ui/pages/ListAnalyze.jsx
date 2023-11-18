@@ -32,7 +32,7 @@ const ListAnalysis = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={9}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>Lab: Collected Samples</h2>
             <p>Any sample that you have logged will be displayed here. You can view them in more detail, record properties, and log subsamples and components.</p>

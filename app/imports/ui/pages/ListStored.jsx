@@ -21,7 +21,7 @@ const ListStored = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>DFG Events in Storage</h2>
             <p>This debris has been collected and is being stored by your organization</p>

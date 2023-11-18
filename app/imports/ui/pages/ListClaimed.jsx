@@ -20,7 +20,7 @@ const ListClaimed = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>Claimed Debris</h2>
             <p>This debris has been claimed your organization but you have not yet reported it as collected</p>
