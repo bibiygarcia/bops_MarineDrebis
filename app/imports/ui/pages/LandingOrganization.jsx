@@ -7,7 +7,6 @@ import DebrisMap from '../components/DebrisMap';
 const LandingOrganization = () => (
   <Container className="p-1 d-grid">
     <DebrisMap />
-    <UnderConstruction />
     <HomeClosingBanner />
   </Container>
 );
