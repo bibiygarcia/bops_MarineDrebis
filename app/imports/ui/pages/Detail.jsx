@@ -96,7 +96,7 @@ const Detail = () => {
 
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={6}>
+        <Col xs={12} md={8} lg={7}>
           <Col className="text-center"><h2>Debris Event Details</h2></Col>
           <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
             <Card>
@@ -122,8 +122,8 @@ const Detail = () => {
                     : <p>No image submitted for this event.</p>
                 }
 
-                <ListField name="parts">
-                  <TextField name="$.name" />
+                <ListField className="detail_parts" name="parts">
+                  <TextField style={{ fontWeight: 'normal' }} name="$.name" />
                   <NumField name="$.distribution" decimal={false} />
                   <NumField name="$.weight" min={0} max={restWeight} />
                   <Button
@@ -150,7 +150,7 @@ const Detail = () => {
         </Col>
       </Row>
 
-      <Row className="justify-content-center">
+      <Row className="justify-content-center detail_chart">
         <Col xs={12} md={8} lg={6}>
           <DetailDisplayPieGraph event={doc} />
         </Col>

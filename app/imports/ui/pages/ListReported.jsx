@@ -21,7 +21,7 @@ const ListReported = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>Reported & Unclaimed Debris</h2>
             <p>This debris has been reported by individuals from the public and organizations within this program.</p>
