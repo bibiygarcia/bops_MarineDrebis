@@ -45,20 +45,39 @@ const DetailDisplayPieGraph = ({ event }) => {
       plugins: {
         legend: {
           display: true,
-          position: 'right',
+          position: 'bottom',
+          labels: {
+            padding: 20,
+          },
         },
       },
     });
 
   }, [event]);
 
+  const largeScreen = window.innerWidth >= 1200;
+
+  const largeScreenStyles = largeScreen
+    ? { marginTop: '300px', marginLeft: '75px' }
+    : { marginTop: '0px', marginLeft: '0px' };
+
+  const styles = {
+    ...largeScreenStyles,
+    width: '100%',
+    height: '500px',
+    marginBottom: '100px',
+    textAlign: 'center',
+  };
+
   return (
-    <div>
+    <div style={styles}>
       {chartData && chartOptions
         ? (
-          <div style={{ width: '100%', height: '500px', marginBottom: '100px' }}>
-            <h3>Debris Distribution</h3>
-            <Pie data={chartData} options={chartOptions} />
+          <div>
+            <h3 style={{ color: 'dimgrey' }}>Debris Distribution</h3>
+            <div style={{ height: '500px', position: 'relative' }}>
+              <Pie data={chartData} options={chartOptions} />
+            </div>
           </div>
         )
         : <p>This event does not have any parts yet.</p>}

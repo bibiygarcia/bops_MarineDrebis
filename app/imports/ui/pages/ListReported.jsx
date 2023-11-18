@@ -29,13 +29,13 @@ const ListReported = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Island</th>
-                <th>City</th>
-                <th>Type</th>
-                <th>Located</th>
-                <th>Describe</th>
-                <th>Details</th>
-                <th>Claim</th>
+                <th className="text-center">Island</th>
+                <th className="text-center">City</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Located</th>
+                <th className="text-center">Describe</th>
+                <th className="text-center">Details</th>
+                <th className="text-center">Claim</th>
               </tr>
             </thead>
             <tbody>

@@ -28,9 +28,9 @@ const ListDisposed = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Result</th>
-                <th>Type</th>
-                <th>Details</th>
+                <th className="text-center">Result</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Details</th>
               </tr>
             </thead>
             <tbody>

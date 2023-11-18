@@ -28,14 +28,14 @@ const ListClaimed = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Island</th>
-                <th>City</th>
-                <th>Type</th>
-                <th>Located</th>
-                <th>Description</th>
-                <th>Details</th>
-                <th>Remove</th>
-                <th>Store</th>
+                <th className="text-center">Island</th>
+                <th className="text-center">City</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Located</th>
+                <th className="text-center">Description</th>
+                <th className="text-center">Details</th>
+                <th className="text-center">Remove</th>
+                <th className="text-center">Store</th>
               </tr>
             </thead>
             <tbody>

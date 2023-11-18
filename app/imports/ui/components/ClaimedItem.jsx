@@ -73,9 +73,22 @@ const ClaimedItems = ({ event }) => {
         {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
         {event.located === 'Other' ? <td>{event.customLocatedDescription}</td> : <td>{event.located}</td>}
         {event.describe === 'Other' ? <td>{event.customDescriptionDescription}</td> : <td>{event.describe}</td>}
-        <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
-        <td><Button variant="outline-danger" onClick={handleShowRelease} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}><XSquareFill /></Button></td>
-        <td><Button onClick={handleShowStore}><CheckSquareFill /></Button></td>
+        <td>
+          <div className="text-center">
+            <Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button>
+          </div>
+        </td>
+        <td>
+          <div className="text-center">
+            <Button variant="outline-danger" onClick={handleShowRelease} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}><XSquareFill /></Button>
+          </div>
+        </td>
+        <td>
+          <div className="text-center">
+            <Button onClick={handleShowStore}><CheckSquareFill /></Button>
+          </div>
+        </td>
+
       </tr>
 
       <Modal show={showRelease} onHide={handleCloseRelease}>

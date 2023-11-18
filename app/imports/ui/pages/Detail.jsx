@@ -96,7 +96,7 @@ const Detail = () => {
 
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={7}>
+        <Col xs={12} md={8} lg={6}>
           <Col className="text-center"><h2>Debris Event Details</h2></Col>
           <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
             <Card>
@@ -148,13 +148,12 @@ const Detail = () => {
             </Card>
           </AutoForm>
         </Col>
-      </Row>
-
-      <Row className="justify-content-center detail_chart">
-        <Col xs={12} md={8} lg={6}>
+        <Col xs={12} md={8} lg={6} className="align-items-center justify-content-center">
           <DetailDisplayPieGraph event={doc} />
         </Col>
       </Row>
+
+      <Row className="justify-content-center " />
     </Container>
   ) : <LoadingSpinner />;
 };

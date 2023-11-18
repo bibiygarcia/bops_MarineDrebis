@@ -29,12 +29,12 @@ const ListStored = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Facility</th>
-                <th>Type</th>
-                <th>Details</th>
-                <th>Transfer</th>
-                <th>Sample</th>
-                <th>Distributed</th>
+                <th className="text-center">Facility</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Details</th>
+                <th className="text-center">Transfer</th>
+                <th className="text-center">Sample</th>
+                <th className="text-center">Distributed</th>
               </tr>
             </thead>
             <tbody>

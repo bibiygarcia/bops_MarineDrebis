@@ -34,8 +34,16 @@ const ReportedItem = ({ event }) => {
         {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
         {event.located === 'Other' ? <td>{event.customLocatedDescription}</td> : <td>{event.located}</td>}
         {event.describe === 'Other' ? <td>{event.customDescriptionDescription}</td> : <td>{event.describe}</td>}
-        <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
-        <td><Button onClick={handleShow}><CheckSquareFill /></Button></td>
+        <td>
+          <div className="text-center">
+            <Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button>
+          </div>
+        </td>
+        <td>
+          <div className="text-center">
+            <Button onClick={handleShow}><CheckSquareFill /></Button>
+          </div>
+        </td>
       </tr>
 
       <Modal show={show} onHide={handleClose}>
