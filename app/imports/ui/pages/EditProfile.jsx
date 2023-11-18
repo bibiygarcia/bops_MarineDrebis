@@ -6,8 +6,8 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
-import { Profiles } from '../../api/profile/Profiles';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { Profiles } from '../../api/profile/Profiles';
 
 const bridge = new SimpleSchema2Bridge(Profiles.schema);
 /* Renders the EditStuff page for editing a single document. */
@@ -31,8 +31,8 @@ const EditProfile = () => {
   // console.log('EditStuff', doc, ready);
   // On successful submit, insert the data.
   const submit = (profile) => {
-    const { firstName, lastName, age, email, password, bio } = profile;
-    Profiles.collection.update(_id, { $set: { firstName, lastName, age, email, password, bio } }, (error) => (error ?
+    const { email, firstName, lastName, age, bio } = profile;
+    Profiles.collection.update(_id, { $set: { email, firstName, lastName, age, bio } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Profile updated successfully', 'success')));
   };
@@ -43,11 +43,10 @@ const EditProfile = () => {
         <AutoForm schema={bridge} onSubmit={profile => submit(profile)} model={doc}>
           <Card>
             <Card.Body>
+              <TextField name="email" placeholder="Email" />
               <TextField name="firstName" placeholder="First Name" />
               <TextField name="lastName" placeholder="Last Name" />
               <TextField name="age" placeholder="Age" />
-              <TextField name="email" placeholder="Email" />
-              <TextField name="password" placeholder="Password" />
               <LongTextField name="bio" placeholder="Bio" />
               <SubmitField value="Submit" />
               <ErrorsField />

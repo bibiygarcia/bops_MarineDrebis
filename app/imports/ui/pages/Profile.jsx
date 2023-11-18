@@ -2,9 +2,9 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Container } from 'react-bootstrap';
-import { Profiles } from '../../api/profile/Profiles';
-import ProfileItem from '../components/ProfileItem';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ProfileItem from '../components/ProfileItem';
+import { Profiles } from '../../api/profile/Profiles';
 
 /*
 Consider looking at this for account stuff: https://docs.meteor.com/api/accounts.html#Meteor-users

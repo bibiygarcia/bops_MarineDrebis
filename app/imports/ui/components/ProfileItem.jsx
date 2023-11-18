@@ -12,6 +12,10 @@ const ProfileItem = ({ profile }) => (
       <table className="table table-sm">
         <tbody>
           <tr>
+            <th>Email:</th>
+            <td>{profile.email}</td>
+          </tr>
+          <tr>
             <th>First Name:</th>
             <td>{profile.firstName}</td>
           </tr>
@@ -24,15 +28,11 @@ const ProfileItem = ({ profile }) => (
             <td>{profile.age}</td>
           </tr>
           <tr>
-            <th>Email:</th>
-            <td>{profile.email}</td>
-          </tr>
-          <tr>
             <th>Bio:</th>
             <td>{profile.bio} </td>
           </tr>
           <tr>
-            <Link to={`/profile-edit/${profile._id}`}>Edit</Link>
+            <Link to={`/edit/${profile._id}`}>Edit</Link>
           </tr>
         </tbody>
       </table>
@@ -44,10 +44,10 @@ const ProfileItem = ({ profile }) => (
 // Require a document to be passed to this component.
 ProfileItem.propTypes = {
   profile: PropTypes.shape({
+    email: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     age: PropTypes.string,
-    email: PropTypes.string,
     bio: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
