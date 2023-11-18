@@ -122,8 +122,8 @@ const Detail = () => {
                     : <p>No image submitted for this event.</p>
                 }
 
-                <ListField name="parts">
-                  <TextField name="$.name" />
+                <ListField className="detail_parts" name="parts">
+                  <TextField style={{ fontWeight: 'normal' }} name="$.name" />
                   <NumField name="$.distribution" decimal={false} />
                   <NumField name="$.weight" min={0} max={restWeight} />
                   <Button
@@ -148,13 +148,12 @@ const Detail = () => {
             </Card>
           </AutoForm>
         </Col>
-      </Row>
-
-      <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={6}>
+        <Col xs={12} md={8} lg={6} className="align-items-center justify-content-center">
           <DetailDisplayPieGraph event={doc} />
         </Col>
       </Row>
+
+      <Row className="justify-content-center " />
     </Container>
   ) : <LoadingSpinner />;
 };

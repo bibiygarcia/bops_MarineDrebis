@@ -36,7 +36,7 @@ const SignUpOrganization = ({ location }) => {
   };
 
   /* Display the signup form. Redirect to add page after successful registration and login. */
-  const { from } = location?.state || { from: { pathname: '/organization/landing' } };
+  const { from } = location?.state || { from: { pathname: '/organization-landing' } };
   // if correct authentication, redirect to from: page instead of signup screen
   if (redirectToReferer) {
     return <Navigate to={from} />;

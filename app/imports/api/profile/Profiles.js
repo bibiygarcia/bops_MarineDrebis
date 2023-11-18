@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+import { Tracker } from 'meteor/tracker';
 
 /**
  * The ProfilesCollection. It encapsulates state and variable values for profiles.
@@ -12,14 +13,13 @@ class ProfilesCollection {
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
-      username: String,
+      email: String,
       firstName: String,
       lastName: String,
       age: String,
-      email: String,
-      password: String,
       bio: String,
-    });
+      username: String,
+    }, { tracker: Tracker });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
     // Define names for publications and subscriptions

@@ -22,17 +22,19 @@ const NavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto justify-content-start">
             {currentUser ? ([
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/report" key="report">Report Debris</Nav.Link>,
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/reported" key="reported">Reported</Nav.Link>,
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/claimed" key="claimed">Claimed</Nav.Link>,
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/stored" key="stored">Stored</Nav.Link>,
-              <Nav.Link id="list-stuff-nav" as={NavLink} to="/distributed" key="distributed">Distributed</Nav.Link>,
+              // nothing here so far
             ]) : ''}
-            {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
+            {Roles.userIsInRole(Meteor.userId(), 'org') ? (
               <>
-                <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/analysis" key="analysis">Analysis</Nav.Link>
-                <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/admin" key="admin">Admin</Nav.Link>
+                <Nav.Link id="list-stuff-nav" as={NavLink} to="/report" key="report">Report Debris</Nav.Link>
+                <Nav.Link id="list-stuff-nav" as={NavLink} to="/reported" key="reported">Reported</Nav.Link>
+                <Nav.Link id="list-stuff-nav" as={NavLink} to="/claimed" key="claimed">Claimed</Nav.Link>
+                <Nav.Link id="list-stuff-nav" as={NavLink} to="/stored" key="stored">Stored</Nav.Link>
+                <Nav.Link id="list-stuff-nav" as={NavLink} to="/distributed" key="distributed">Distributed</Nav.Link>
               </>
+            ) : ''}
+            {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
+              <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/analysis" key="analysis">Analysis</Nav.Link>
             ) : ''}
           </Nav>
           <Nav className="justify-content-end">

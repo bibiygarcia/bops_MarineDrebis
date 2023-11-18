@@ -92,10 +92,26 @@ const StoredItem = ({ event }) => {
       <tr>
         <td>{event.facility}</td>
         {event.type === 'Other' ? <td>{event.customTypeDescription}</td> : <td>{event.type}</td>}
-        <td><Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button></td>
-        <td><Button variant="secondary" onClick={handleTransferClick}><ArrowLeftRight /> <PeopleFill /></Button></td>
-        <td>{SampleButton}</td>
-        <td><Button variant="success" onClick={handleShowDispose}><CheckSquareFill /></Button></td>
+        <td>
+          <div className="text-center">
+            <Button variant="secondary" onClick={handleDetailsClick}><PencilSquare /></Button>
+          </div>
+        </td>
+        <td>
+          <div className="text-center">
+            <Button variant="secondary" onClick={handleTransferClick}><ArrowLeftRight /> <PeopleFill /></Button>
+          </div>
+        </td>
+        <td>
+          <div className="text-center">
+            {SampleButton}
+          </div>
+        </td>
+        <td>
+          <div className="text-center">
+            <Button variant="success" onClick={handleShowDispose}><CheckSquareFill /></Button>
+          </div>
+        </td>
       </tr>
 
       <Modal show={showDispose} onHide={handleCloseDispose}>

@@ -20,7 +20,7 @@ const ListClaimed = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>Claimed Debris</h2>
             <p>This debris has been claimed your organization but you have not yet reported it as collected</p>
@@ -28,14 +28,14 @@ const ListClaimed = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Island</th>
-                <th>City</th>
-                <th>Type</th>
-                <th>Located</th>
-                <th>Description</th>
-                <th>Details</th>
-                <th>Remove</th>
-                <th>Store</th>
+                <th className="text-center">Island</th>
+                <th className="text-center">City</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Located</th>
+                <th className="text-center">Description</th>
+                <th className="text-center">Details</th>
+                <th className="text-center">Remove</th>
+                <th className="text-center">Store</th>
               </tr>
             </thead>
             <tbody>

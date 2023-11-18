@@ -44,3 +44,13 @@ body .navbar {
 footer, footer a {
   color: var(--matr-navbar-text-color);
 }
+
+.detail_parts .card-title > label {
+  font-weight: 400;
+  font-size: 1.5em;
+}
+
+.detail_chart {
+  padding-top: 30px;
+}
+

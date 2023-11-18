@@ -20,7 +20,7 @@ const ListDisposed = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>DFG Events that have been Distributed</h2>
             <p>This debris has been recycled, reused, etc. Samples may have been collected and these can still be viewed anytime.</p>
@@ -28,9 +28,9 @@ const ListDisposed = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Result</th>
-                <th>Type</th>
-                <th>Details</th>
+                <th className="text-center">Result</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Details</th>
               </tr>
             </thead>
             <tbody>

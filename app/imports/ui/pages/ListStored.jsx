@@ -21,7 +21,7 @@ const ListStored = () => {
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={12} lg={10}>
           <Col className="text-center">
             <h2>DFG Events in Storage</h2>
             <p>This debris has been collected and is being stored by your organization</p>
@@ -29,12 +29,12 @@ const ListStored = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Facility</th>
-                <th>Type</th>
-                <th>Details</th>
-                <th>Transfer</th>
-                <th>Sample</th>
-                <th>Distributed</th>
+                <th className="text-center">Facility</th>
+                <th className="text-center">Type</th>
+                <th className="text-center">Details</th>
+                <th className="text-center">Transfer</th>
+                <th className="text-center">Sample</th>
+                <th className="text-center">Distributed</th>
               </tr>
             </thead>
             <tbody>
