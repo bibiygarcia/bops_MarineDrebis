@@ -16,25 +16,11 @@ const Footer = () => (
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col className="text-center">
           <h4>Temporary Links</h4>
           <a href="/organization-signin">Organization Sign In</a>
           <br />
           <a href="/organization-signup">Organization Sign Up</a>
-        </Col>
-        <Col className="text-center">
-          Department of Information and Computer Sciences
-          {' '}
-          <br />
-          University of Hawaii
-          <br />
-          Honolulu, HI 96822
-          {' '}
-          <br />
-          <a href="http://ics-software-engineering.github.io/meteor-application-template-react">
-            Template Home
-            Page
-          </a>
         </Col>
       </Row>
     </Container>
