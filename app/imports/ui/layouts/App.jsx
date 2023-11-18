@@ -14,7 +14,7 @@ import Landing from '../pages/Landing';
 import LandingOrganization from '../pages/LandingOrganization';
 import SignInOrganization from '../pages/SignInOrganization';
 import SignUpOrganization from '../pages/SignUpOrganization';
-import Profile from '../pages/Profile';
+import MyProfile from '../pages/MyProfile';
 import EditProfile from '../pages/EditProfile';
 import ListReported from '../pages/ListReported';
 import ListClaimed from '../pages/ListClaimed';
@@ -50,7 +50,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/report" element={<ReportDebris />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/profile/:_id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/profile/:_id" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/reported" element={<ProtectedRoute><ListReported /></ProtectedRoute>} />
           <Route path="/claimed" element={<ProtectedRoute><ListClaimed /></ProtectedRoute>} />

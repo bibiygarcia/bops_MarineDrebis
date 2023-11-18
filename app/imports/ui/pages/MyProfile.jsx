@@ -1,22 +1,22 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Container } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import LoadingSpinner from '../components/LoadingSpinner';
-import ProfileItem from '../components/ProfileItem';
+import Profile from '../components/Profile';
 import { Profiles } from '../../api/profile/Profiles';
 
 /*
 Consider looking at this for account stuff: https://docs.meteor.com/api/accounts.html#Meteor-users
  */
 
-const Profile = () => {
+const MyProfile = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   // eslint-disable-next-line no-unused-vars
   const { ready, profiles } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
-    // Get access to Profile documents.
+    // Get access to MyProfile documents.
     const subscription = Meteor.subscribe(Profiles.userPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();
@@ -29,9 +29,14 @@ const Profile = () => {
   }, []);
   return ready ? (
     <Container className="py-3">
-      {profiles.map((profile) => <ProfileItem key={profile._id} profile={profile} />)}
+      <Row className="g-4">
+        <Col>
+          <h2 className="text-center">My Profile</h2>
+          {profiles.map((profile) => (<Profile key={profile.id} profile={profile} />))}
+        </Col>
+      </Row>
     </Container>
   ) : <LoadingSpinner />;
 };
 
-export default Profile;
+export default MyProfile;
